@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from 'react';
+import { observer } from 'mobx-react-lite';
 
-function App() {
+import { uiStore } from './Stores/UIStore';
+
+import Footer from './Components/Footer';
+import Header from './Components/Header';
+import Home from './Pages/Home';
+
+const BaseApp: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div data-testid={'app'} className={`${uiStore.darkMode && 'dark'}`}>
+      <div className="bg-GPlight dark:bg-GPdark grid gap-3 grid-flow-row grid-rows-[auto_1fr_auto] justify-items-center w-full min-h-screen px-3">
+        <Header />
+        <Home />
+        <Footer />
+      </div>
     </div>
   );
-}
+};
 
+const App = observer(BaseApp);
 export default App;
