@@ -1,32 +1,23 @@
 import { FC } from 'react';
+import { observer } from 'mobx-react-lite';
 
-import { upcomingTrips } from './mockData';
+import { uiStore } from './Stores/UIStore';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
-import TripCard from './Components/TripCard';
+import Home from './Pages/Home';
 
-const App: FC = () => {
+const BaseApp: FC = () => {
   return (
-    <div className="App grid gap-3 grid-flow-row grid-rows-[auto_1fr_auto] justify-items-center w-full min-h-screen px-3">
-      <Header />
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-3 h-full w-full md:w-[85%] lg:w-[75%]">
-        {upcomingTrips.map(
-          ({ cardPicture, description, destination, title }) => {
-            return (
-              <TripCard
-                cardPicture={cardPicture}
-                description={description}
-                destination={destination}
-                title={title}
-              />
-            );
-          },
-        )}
+    <div className={`App ${uiStore.darkMode && 'dark'}`}>
+      <div className="bg-GPlight dark:bg-GPdark grid gap-3 grid-flow-row grid-rows-[auto_1fr_auto] justify-items-center w-full min-h-screen px-3">
+        <Header />
+        <Home />
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };
 
+const App = observer(BaseApp);
 export default App;

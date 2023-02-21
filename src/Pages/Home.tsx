@@ -1,25 +1,22 @@
 import { FC } from 'react';
 
+import { upcomingTrips } from '../mockData';
+
+import TripCard from '../Components/TripCard';
+
 const Home: FC = () => {
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
-      <figure>
-        <img
-          src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt="Shoes"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">
-          Shoes!
-          <div className="badge badge-secondary">NEW</div>
-        </h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div className="card-actions justify-end">
-          <div className="badge badge-outline">Fashion</div>
-          <div className="badge badge-outline">Products</div>
-        </div>
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 p-3 h-full w-full md:w-[85%] lg:w-[75%]">
+      {upcomingTrips.map(({ cardPicture, description, destination, title }) => {
+        return (
+          <TripCard
+            cardPicture={cardPicture}
+            description={description}
+            destination={destination}
+            title={title}
+          />
+        );
+      })}
     </div>
   );
 };
