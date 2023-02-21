@@ -16,8 +16,12 @@ const TripCard: FC<TripCardData> = ({
         </figure>
       )}
       <div className="card-body text-GPdark2 dark:text-GPlight">
-        <h2 className="card-title">{title ?? destination}</h2>
-        <p className="line-clamp-3">{description}</p>
+        <h2 data-testid={'card-title'} className="card-title">
+          {title ?? destination}
+        </h2>
+        <p data-testid={'card-description'} className="line-clamp-3">
+          {description}
+        </p>
       </div>
     </div>
   );

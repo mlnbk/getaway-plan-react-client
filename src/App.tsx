@@ -9,7 +9,7 @@ import Home from './Pages/Home';
 
 const BaseApp: FC = () => {
   return (
-    <div className={`App ${uiStore.darkMode && 'dark'}`}>
+    <div data-testid={'app'} className={`${uiStore.darkMode && 'dark'}`}>
       <div className="bg-GPlight dark:bg-GPdark grid gap-3 grid-flow-row grid-rows-[auto_1fr_auto] justify-items-center w-full min-h-screen px-3">
         <Header />
         <Home />

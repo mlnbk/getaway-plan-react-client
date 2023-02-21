@@ -5,10 +5,12 @@ const UIStore = types
     darkMode: types.boolean,
   })
   .actions((self) => ({
+    setDarkMode(isDark: boolean) {
+      self.darkMode = isDark;
+    },
     toggleDarkMode() {
       self.darkMode = !self.darkMode;
       document.body.style.colorScheme = 'light';
-      console.log(self.darkMode);
     },
   }));
 
