@@ -1,11 +1,16 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/mlnbk/getaway-plan-react-client/blob/main/GP-logo-transparent-green.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/mlnbk/getaway-plan-react-client/blob/main/GP-logo-transparent-brown.png">
+    <img alt="GetawayPlan Logo" src="https://github.com/mlnbk/getaway-plan-react-client/blob/main/GP-logo-transparent-green.png">
+  </picture>
+</p>
+
 # Getaway Plan React Client
-This project aims to become be a travel planning app.
-The initial idea would be, that you could create a travel planning app that helps users plan, organize their trips.
-Many features are planned, including itinerary planning, budget tracking, message board between trip participats, travel recommendations and so on.
 
 ## Description
 
-The will use React for the frontend, NestJS for the backend, and a MongoDB database to store user data and travel information.
+GetawayPlan is a trip planning app that allows users to plan and organize their travel itineraries in one place. This is the frontend built with React.
 
 # Getting Started with Create React App
 
@@ -47,6 +52,24 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Planned features
+
+- Create, update and delete trips
+- Add and remove locations to trips
+- Add and remove activities to locations
+- View a map of the trip with locations and activities
+- etc..
+
+## Technologies planned / used
+
+- React
+- React Router
+- Mobx State Tree
+- Axios
+- React Query
+- daisyUI, Feather Icons
+- Tailwind CSS
 
 ## Learn More
 
