@@ -1,18 +1,27 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 import { uiStore } from './Stores/UIStore';
 
 import App from './App';
 
 test('Renders app name', () => {
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>,
+  );
   const linkElement = screen.getByText(/getawayplan/i);
   expect(linkElement).toBeInTheDocument();
 });
 
 describe('App', () => {
   test('renders the header, home page, and footer', () => {
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
 
     const header = screen.getByRole('banner');
     expect(header).toBeInTheDocument();
@@ -26,7 +35,11 @@ describe('App', () => {
 
   test('applies dark mode when enabled', () => {
     uiStore.setDarkMode(true);
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
 
     const app = screen.getByTestId('app');
     expect(app).toHaveClass('dark');
@@ -34,7 +47,11 @@ describe('App', () => {
 
   test('does not apply dark mode when disabled', () => {
     uiStore.setDarkMode(false);
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
 
     const app = screen.getByTestId('app');
     expect(app).not.toHaveClass('dark');
