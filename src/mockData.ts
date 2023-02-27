@@ -1,4 +1,4 @@
-import { TripCardData } from './constants';
+import { TripCardData } from './types';
 
 export const upcomingTrips: TripCardData[] = [
   {

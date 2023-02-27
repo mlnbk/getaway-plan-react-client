@@ -1,4 +1,5 @@
 import { types } from 'mobx-state-tree';
+import { SpinnerColor } from '../types';
 
 const UIStore = types
   .model({
@@ -11,6 +12,11 @@ const UIStore = types
     toggleDarkMode() {
       self.darkMode = !self.darkMode;
       document.body.style.colorScheme = 'light';
+    },
+  }))
+  .views((self) => ({
+    get spinnerColor() {
+      return self.darkMode ? SpinnerColor.dark : SpinnerColor.light;
     },
   }));
 

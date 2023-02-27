@@ -1,15 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { uiStore } from './Stores/UIStore';
 
 import App from './App';
 
+const queryClient = new QueryClient();
+
 test('Renders app name', () => {
   render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
   const linkElement = screen.getByText(/getawayplan/i);
   expect(linkElement).toBeInTheDocument();
@@ -18,9 +23,11 @@ test('Renders app name', () => {
 describe('App', () => {
   test('renders the header, home page, and footer', () => {
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
     const header = screen.getByRole('banner');
@@ -36,9 +43,11 @@ describe('App', () => {
   test('applies dark mode when enabled', () => {
     uiStore.setDarkMode(true);
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
     const app = screen.getByTestId('app');
@@ -48,9 +57,11 @@ describe('App', () => {
   test('does not apply dark mode when disabled', () => {
     uiStore.setDarkMode(false);
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </QueryClientProvider>,
     );
 
     const app = screen.getByTestId('app');
