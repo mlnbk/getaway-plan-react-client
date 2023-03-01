@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { useQuery } from 'react-query';
 import { observer } from 'mobx-react-lite';
@@ -12,7 +12,7 @@ const BaseProfile: FC = () => {
     return apiService.get('user/me');
   });
 
-  if (isFetching)
+  if (isFetching) {
     return (
       <ClipLoader
         data-testid="loader"
@@ -20,6 +20,7 @@ const BaseProfile: FC = () => {
         className="justify-center justify-self-center"
       />
     );
+  }
 
   return (
     <div

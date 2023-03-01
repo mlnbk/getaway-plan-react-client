@@ -1,11 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query';
+
+import App from './App';
+import Profile from './Pages/Profile';
+import Login from './Pages/Login';
+import Home from './Pages/Home';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,15 +23,26 @@ const queryClient = new QueryClient({
   },
 });
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      { path: 'home', element: <Home /> },
+      { path: 'profile/me', element: <Profile /> },
+      { path: '/login', element: <Login /> },
+      { path: '*', element: <Navigate to="/home" replace /> },
+    ],
+  },
+]);
+
 const root = ReactDOM.createRoot(
   document.querySelector('#root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </QueryClientProvider>
   </React.StrictMode>,
 );

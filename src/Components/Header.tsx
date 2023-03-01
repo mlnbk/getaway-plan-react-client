@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { User } from '../types';
 import { apiService } from '../Utils/APIService';
 import { useNavigate } from 'react-router-dom';
+import Button from './Button';
 
 const BaseHeader: FC = () => {
   const navigate = useNavigate();
@@ -21,26 +22,32 @@ const BaseHeader: FC = () => {
 
   return (
     <header className="header sticky grid grid-cols-3 items-center p-3 h-full w-full md:w-[85%] lg:w-[75%]">
-      <div className="text-GPdark2 dark:text-GPlight justify-self-start">
-        GetawayPlan
+      <div className="justify-self-start">
+        <img
+          className="hidden dark:block max-h-10"
+          src="/GP-logo-transparent-brown.png"
+        />
+        <img
+          className="block dark:hidden max-h-10"
+          src="/GP-logo-transparent-green.png"
+        />
       </div>
-      <button
-        onClick={() => navigate('home')}
-        className="text-GPdark2 dark:text-GPlight justify-self-center"
-      >
-        Home
-      </button>
-      <button
-        onClick={() => navigate('profile/me')}
-        className="avatar justify-self-end"
-      >
-        <div className="w-8 rounded-full">
-          <img
-            src={`data:image/png;base64,${userStore.user.profilePic}`}
-            alt="Profile picture"
-          />
-        </div>
-      </button>
+      <div></div>
+      {userStore.authenticated ? (
+        <button
+          onClick={() => navigate('profile/me')}
+          className="avatar justify-self-end"
+        >
+          <div className="w-8 rounded-full">
+            <img
+              src={`data:image/png;base64,${userStore.user?.profilePic}`}
+              alt="Profile picture"
+            />
+          </div>
+        </button>
+      ) : (
+        <Button className="justify-self-end" label={'Login'} />
+      )}
     </header>
   );
 };
