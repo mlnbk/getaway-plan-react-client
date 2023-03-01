@@ -1,44 +1,40 @@
-import { FC, useEffect } from 'react';
+import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
-import { NavLink, useNavigate } from 'react-router-dom';
-
-import Input from '../Components/Input';
-import Form from '../Components/Form';
+import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import { Lock, Mail } from 'react-feather';
-import Button from '../Components/Button';
 
-const onSubmit = async (data: any) => {
-  if (!data.email || !data.password) {
-    toast.error('Email and password must be provided!');
-    return;
-  }
-  // await userStore.login({
-  //   email: data.email.toLowerCase(),
-  //   password: data.password,
-  // });
-  // if (userStore.authenticated) {
-  //   navigate('/home');
-  //   toast.success(`Welcome, ${userStore.user?.firstName}!`);
-  // }
-};
+import { userStore } from '../Stores/UserStore';
+import { uiStore } from '../Stores/UIStore';
+
+import Button from '../Components/Button';
+import Form from '../Components/Form';
+import Input from '../Components/Input';
+
 const Login: FC = () => {
   const navigate = useNavigate();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  useEffect(() => {
-    // userStore.logout();
-    navigate('/login');
-  }, []);
-
-  //   if (isFetching) {
-  //     return (
-  //       <ClipLoader
-  //         data-testid="loader"
-  //         color={uiStore.spinnerColor}
-  //         className="justify-center justify-self-center"
-  //       />
-  //     );
-  //   }
+  const onSubmit = async (data: any) => {
+    if (!data.email || !data.password) {
+      toast.error('Email and password must be provided!');
+      return;
+    }
+    setIsAuthenticating(true);
+    try {
+      await userStore.login({
+        email: data.email.toLowerCase(),
+        password: data.password,
+      });
+    } catch (error) {
+      toast.error(String(error));
+    }
+    if (userStore.authenticated) {
+      navigate('/home');
+      toast.success(`Welcome, ${userStore.user?.name}!`);
+    }
+    setIsAuthenticating(false);
+  };
 
   return (
     <>
@@ -61,36 +57,38 @@ const Login: FC = () => {
             src="/GP-logo-transparent-green.png"
           />
         </div>
-        <div className="box">
-          <Form onSubmit={onSubmit}>
-            <div className="font-medium">Email</div>
-            <Input
-              name="email"
-              icon={
-                <Mail className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
-              }
-            />
-            <div className="font-medium">Password</div>
-            <Input
-              name="password"
-              type="password"
-              icon={
-                <Lock className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
-              }
-            />
-            <Button
-              className="justify-self-center"
-              label={'Login'}
-              type={'submit'}
-            />
-          </Form>
-        </div>
-        {/* <NavLink
-          to="/password-reset"
-          className="text-blue-400 mt-6 -mb-6 text-center text-sm hover:drop-shadow-lg"
-        >
-          Reset password
-        </NavLink> */}
+        {isAuthenticating ? (
+          <ClipLoader
+            data-testid="loader"
+            color={uiStore.spinnerColor}
+            className="justify-center justify-self-center"
+          />
+        ) : (
+          <div className="box">
+            <Form onSubmit={onSubmit}>
+              <div className="font-medium">Email</div>
+              <Input
+                name="email"
+                icon={
+                  <Mail className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                }
+              />
+              <div className="font-medium">Password</div>
+              <Input
+                name="password"
+                type="password"
+                icon={
+                  <Lock className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                }
+              />
+              <Button
+                className="justify-self-center"
+                label={'Login'}
+                type={'submit'}
+              />
+            </Form>
+          </div>
+        )}
       </div>
     </>
   );

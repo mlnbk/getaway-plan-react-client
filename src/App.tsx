@@ -7,11 +7,13 @@ import { uiStore } from './Stores/UIStore';
 import DarkModeButton from './Components/DarkModeButton';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
+import ToastNotification from './Components/Toast';
 
 const BaseApp: FC = () => {
   return (
     <div data-testid={'app'} className={`${uiStore.darkMode && 'dark'}`}>
       <DarkModeButton />
+      <ToastNotification />
       <div
         className="
           grid gap-3 grid-flow-row grid-rows-[auto_1fr_auto]

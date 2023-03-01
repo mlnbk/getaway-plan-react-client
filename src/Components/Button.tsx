@@ -15,7 +15,6 @@ const Button: FC<ButtonProperties> = ({
   type = 'button',
   className = '',
 }) => {
-  console.log(className);
   return (
     <button
       type={type}
