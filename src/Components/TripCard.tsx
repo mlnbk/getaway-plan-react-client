@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { TripCardData } from '../constants';
+import { TripCardData } from '../types';
 
 const TripCard: FC<TripCardData> = ({
   cardPicture,
