@@ -14,6 +14,9 @@ module.exports = {
         GPdark: '#557174',
         GPdark2: '#2a383a',
       },
+      backgroundImage: {
+        'mountain-green': "url('/public/green-bg-img.png')",
+      },
     },
   },
   plugins: [require('daisyui'), require('@tailwindcss/line-clamp')],

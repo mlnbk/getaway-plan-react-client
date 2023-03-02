@@ -30,10 +30,16 @@ const router = createBrowserRouter([
     children: [
       { path: 'home', element: <Home /> },
       { path: 'profile/me', element: <Profile /> },
-      { path: '/login', element: <Login /> },
+      { path: '', element: <Navigate to="/home" replace /> },
       { path: '*', element: <Navigate to="/home" replace /> },
     ],
   },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  { path: '', element: <Navigate to="/home" replace /> },
+  { path: '*', element: <Navigate to="/home" replace /> },
 ]);
 
 const root = ReactDOM.createRoot(

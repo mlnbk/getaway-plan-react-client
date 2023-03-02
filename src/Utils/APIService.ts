@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axiosRetry from 'axios-retry';
 import { toast } from 'react-hot-toast';
 
 import { userStore } from '../Stores/UserStore';
@@ -6,6 +7,7 @@ import { userStore } from '../Stores/UserStore';
 const handleErrors = async (error: AxiosError) => {
   if (!error.response) {
     toast.error('No Server Response');
+    return;
   }
   const { data } = error.response as AxiosResponse;
   toast.error(`Error: ${data.message}`);
@@ -23,6 +25,17 @@ class APIService {
         'Content-Type': 'application/json',
       },
     });
+    axiosRetry(this.apiClient, {
+      retries: Number.POSITIVE_INFINITY,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        return (
+          !error.response ||
+          error.code === 'ERR_NETWORK' ||
+          /mongo/gi.test((error.response?.data as any).name)
+        );
+      },
+    });
   }
 
   addToken(config: any) {
@@ -30,7 +43,7 @@ class APIService {
       ...config,
       headers: {
         ...config.headers,
-        authorization: userStore.token,
+        authorization: 'Bearer ' + userStore.token,
       },
     };
   }

@@ -18,12 +18,10 @@ const BaseDarkModeButton: FC = () => {
             className="bg-GPmid2 text-GPlight w-8 h-8 p-2 rounded-full shadow"
           />
         ) : (
-          'itt' && (
-            <Sun
-              data-testid={'dark-mode-button-icon'}
-              className="bg-GPmid1 text-GPdark2 w-8 h-8 p-2 rounded-full shadow"
-            />
-          )
+          <Sun
+            data-testid={'dark-mode-button-icon'}
+            className="bg-GPmid1 text-GPdark2 w-8 h-8 p-2 rounded-full shadow"
+          />
         )}
       </div>
     </button>

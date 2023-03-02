@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { userStore } from '../Stores/UserStore';
 
@@ -8,6 +8,12 @@ import Button from './Button';
 
 const BaseHeader: FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [showLoginButton, setShowLoginButton] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname.includes('login')) setShowLoginButton(false);
+  }, [location]);
 
   return (
     <header className="header sticky grid grid-cols-3 items-center p-3 h-full w-full md:w-[85%] lg:w-[75%]">
@@ -35,11 +41,13 @@ const BaseHeader: FC = () => {
           </div>
         </button>
       ) : (
-        <Button
-          className="justify-self-end"
-          label={'Login'}
-          onClick={() => navigate('/login')}
-        />
+        showLoginButton && (
+          <Button
+            className="justify-self-end"
+            label={'Login'}
+            onClick={() => navigate('/login')}
+          />
+        )
       )}
     </header>
   );

@@ -28,7 +28,6 @@ export enum TripLabel {
 }
 
 export class User {
-  _id!: string;
   email!: string;
   name!: string;
   profilePic!: Buffer;

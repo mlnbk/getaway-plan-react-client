@@ -1,10 +1,13 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { uiStore } from './Stores/UIStore';
+import { userStore } from './Stores/UserStore';
 
 import DarkModeButton from './Components/DarkModeButton';
+import Error from './Components/Error';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 import ToastNotification from './Components/Toast';
@@ -21,8 +24,14 @@ const BaseApp: FC = () => {
           w-full min-h-screen px-3
           bg-GPlight dark:bg-GPdark"
       >
-        <Header />
-        <Outlet />
+        <ErrorBoundary FallbackComponent={Error}>
+          <Header />
+          {userStore.authenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate to="/login" replace />
+          )}
+        </ErrorBoundary>
         <Footer />
       </div>
     </div>

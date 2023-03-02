@@ -1,38 +1,63 @@
-import { applySnapshot, types } from 'mobx-state-tree';
+import {
+  applySnapshot,
+  onAction,
+  onPatch,
+  onSnapshot,
+  types,
+} from 'mobx-state-tree';
 
-import { LoginParameters, User } from '../types';
+import { LoginParameters, Role } from '../types';
 import { apiService } from '../Utils/APIService';
+
+const UserModel = types.model('User', {
+  email: types.string,
+  name: types.string,
+  profilePic: types.string,
+  roles: types.array(types.enumeration('role', Object.keys(Role))),
+});
+
+let initialState = {
+  token: '',
+  user: UserModel.create({
+    email: '',
+    name: '',
+    profilePic: '',
+    roles: [],
+  }),
+};
 
 const UserStore = types
   .model({
-    token: types.string,
+    token: types.maybeNull(types.string),
+    user: types.maybeNull(UserModel),
   })
-  .volatile((self) => ({
-    user: new User(),
-  }))
   .actions((self) => ({
     async login({ email, password }: LoginParameters) {
       const tokenResponse = await apiService.post('auth/login', {
         email,
         password,
       });
-      if (tokenResponse) {
-        this.setToken(tokenResponse.access_token);
-        const userResponse = await apiService.get('/user/me');
-        if (userResponse) {
-          this.setUser(userResponse);
-        } else {
-          throw new Error('Error while loggin in. Please try again later!');
-        }
-      } else {
+      if (!tokenResponse) {
         throw new Error('Error while loggin in. Please try again later!');
       }
+      this.setToken(tokenResponse.access_token);
+      await this.getProfile();
+    },
+    async getProfile() {
+      const userResponse = await apiService.get('/user/me');
+      if (!userResponse) {
+        throw new Error('Error while loggin in. Please try again later!');
+      }
+      this.setUser(userResponse);
+    },
+    logout() {
+      this.reset();
     },
     reset() {
-      applySnapshot(self, { token: '' });
+      applySnapshot(self, {});
     },
-    setUser(user: User) {
-      self.user = user;
+    setUser(user: any) {
+      self.user = UserModel.create(user);
     },
     setToken(token: string) {
       self.token = token;
@@ -40,7 +65,19 @@ const UserStore = types
   }))
   .views((self) => ({
     get authenticated() {
-      return self.token.length > 0;
+      return self.token && self.token.length > 0;
     },
   }));
-export const userStore = UserStore.create({ token: '' });
+
+const foundItem = localStorage.getItem('userStore');
+if (foundItem) {
+  const foundState = JSON.parse(foundItem);
+  if (UserStore.is(foundState)) {
+    initialState = foundState as any;
+  }
+}
+export const userStore = UserStore.create(initialState);
+
+onSnapshot(userStore, (snapshot) => {
+  localStorage.setItem('userStore', JSON.stringify(snapshot));
+});
