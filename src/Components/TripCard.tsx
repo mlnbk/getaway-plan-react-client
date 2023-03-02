@@ -9,7 +9,7 @@ const TripCard: FC<TripCardData> = ({
   title,
 }) => {
   return (
-    <div className="card w-full bg-GPmid1 dark:bg-GPmid2 shadow-xl">
+    <div className="card w-full bg-GPmid dark:bg-GPlightGreen shadow-xl">
       {cardPicture && (
         <figure>
           <img src={cardPicture} alt={title} />

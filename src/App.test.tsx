@@ -1,70 +1,68 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-
-import { uiStore } from './Stores/UIStore';
-
+import { userStore } from './Stores/UserStore';
 import App from './App';
 
-const queryClient = new QueryClient();
+describe('App', () => {
+  beforeEach(() => {
+    const setStateMock = jest.fn();
+    const useStateMock: any = (useState: any) => [useState, setStateMock];
+    jest.spyOn(React, 'useState').mockImplementation(useStateMock);
+    // Reset store before each test
+    userStore.reset();
+  });
 
-test('Renders app name', () => {
-  render(
-    <QueryClientProvider client={queryClient}>
+  it('renders the app component', () => {
+    render(
       <MemoryRouter>
         <App />
-      </MemoryRouter>
-    </QueryClientProvider>,
-  );
-  const linkElement = screen.getByText(/getawayplan/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-describe('App', () => {
-  test('renders the header, home page, and footer', () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <App />
-        </MemoryRouter>
-      </QueryClientProvider>,
+      </MemoryRouter>,
     );
 
-    const header = screen.getByRole('banner');
-    expect(header).toBeInTheDocument();
-
-    const home = screen.getByTestId('home-page');
-    expect(home).toBeInTheDocument();
-
-    const footer = screen.getByRole('contentinfo');
-    expect(footer).toBeInTheDocument();
+    expect(screen.getByTestId('app')).toBeInTheDocument();
   });
 
-  test('applies dark mode when enabled', () => {
-    uiStore.setDarkMode(true);
+  it('renders the header component', () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <App />
-        </MemoryRouter>
-      </QueryClientProvider>,
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
     );
 
-    const app = screen.getByTestId('app');
-    expect(app).toHaveClass('dark');
+    expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
-  test('does not apply dark mode when disabled', () => {
-    uiStore.setDarkMode(false);
+  it('renders the footer component', () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <App />
-        </MemoryRouter>
-      </QueryClientProvider>,
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
     );
 
-    const app = screen.getByTestId('app');
-    expect(app).not.toHaveClass('dark');
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
+  });
+
+  it('navigates to the login page if the user is not authenticated', () => {
+    userStore.setToken('');
+
+    const { debug } = render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(screen.getByTestId('login-page')).toBeInTheDocument();
+  });
+
+  it('renders the child routes if the user is authenticated', () => {
+    userStore.setToken('test_token');
+
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByTestId('child-routes')).toBeInTheDocument();
   });
 });

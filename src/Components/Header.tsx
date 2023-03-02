@@ -1,46 +1,69 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { userStore } from '../Stores/UserStore';
-import { useQuery } from 'react-query';
-import { User } from '../types';
-import { apiService } from '../Utils/APIService';
-import { useNavigate } from 'react-router-dom';
+
+import Button from './Button';
 
 const BaseHeader: FC = () => {
   const navigate = useNavigate();
-  //NOTE temporary until login is in place
-  const { data, isFetching } = useQuery<User>('profile', async () => {
-    return apiService.get('user/me');
-  });
+  const location = useLocation();
+  const [showLoginButton, setShowLoginButton] = useState(true);
 
-  if (!isFetching) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    userStore.setUser(data!);
-  }
+  useEffect(() => {
+    if (location.pathname.includes('login')) setShowLoginButton(() => false);
+  }, [location.pathname, showLoginButton]);
 
   return (
-    <header className="header sticky grid grid-cols-3 items-center p-3 h-full w-full md:w-[85%] lg:w-[75%]">
-      <div className="text-GPdark2 dark:text-GPlight justify-self-start">
-        GetawayPlan
-      </div>
-      <button
-        onClick={() => navigate('home')}
-        className="text-GPdark2 dark:text-GPlight justify-self-center"
-      >
-        Home
-      </button>
-      <button
-        onClick={() => navigate('profile/me')}
-        className="avatar justify-self-end"
-      >
-        <div className="w-8 rounded-full">
+    <header
+      data-testid={'header'}
+      className="
+        header
+        sticky
+        grid
+        justify-items-center
+        bg-GPmid2 dark:bg-GPlightGreen bg-opacity-30 dark:bg-opacity-50
+        border-b-2 border-GPmid2 dark:border-GPlightGreen border-opacity-50 dark:border-opacity-50
+        p-3 h-full w-full"
+    >
+      <div className="grid grid-cols-2 justify-items-center w-full md:w-[80%] lg:w-[70%]">
+        <button
+          data-testid={'logo'}
+          className="justify-self-start"
+          onClick={() => navigate('/home')}
+        >
           <img
-            src={`data:image/png;base64,${userStore.user.profilePic}`}
-            alt="Profile picture"
+            className="hidden dark:block max-h-10"
+            src="/GP-logo-transparent-light.png"
           />
-        </div>
-      </button>
+          <img
+            className="block dark:hidden max-h-10"
+            src="/GP-logo-transparent-brown.png"
+          />
+        </button>
+        {userStore.authenticated ? (
+          <button
+            onClick={() => navigate('profile/me')}
+            className="avatar justify-self-end"
+          >
+            <div className="w-10 md:w-12 rounded-full border-2 border-GPlightGreen dark:border-GPlightBrown">
+              <img
+                src={`data:image/png;base64,${userStore.user?.profilePic}`}
+                alt="Profile picture"
+              />
+            </div>
+          </button>
+        ) : (
+          showLoginButton && (
+            <Button
+              className="justify-self-end"
+              label={'Login'}
+              onClick={() => navigate('/login')}
+            />
+          )
+        )}
+      </div>
     </header>
   );
 };

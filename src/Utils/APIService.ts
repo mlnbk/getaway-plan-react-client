@@ -1,13 +1,16 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axiosRetry from 'axios-retry';
 import { toast } from 'react-hot-toast';
+
+import { userStore } from '../Stores/UserStore';
 
 const handleErrors = async (error: AxiosError) => {
   if (!error.response) {
     toast.error('No Server Response');
+    return;
   }
   const { data } = error.response as AxiosResponse;
   toast.error(`Error: ${data.message}`);
-  toast.error('Application server error. Please try again.');
 };
 
 class APIService {
@@ -22,15 +25,25 @@ class APIService {
         'Content-Type': 'application/json',
       },
     });
+    axiosRetry(this.apiClient, {
+      retries: Number.POSITIVE_INFINITY,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        return (
+          !error.response ||
+          error.code === 'ERR_NETWORK' ||
+          /mongo/gi.test((error.response?.data as any).name)
+        );
+      },
+    });
   }
 
   addToken(config: any) {
-    console.log(process.env);
     return {
       ...config,
       headers: {
         ...config.headers,
-        authorization: `Bearer ${process.env.REACT_APP_TEMPORARY_JWT_TOKEN}`, // FIXME remove this temporary env var
+        authorization: 'Bearer ' + userStore.token,
       },
     };
   }

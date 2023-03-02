@@ -11,12 +11,11 @@ const UIStore = types
     },
     toggleDarkMode() {
       self.darkMode = !self.darkMode;
-      document.body.style.colorScheme = 'light';
     },
   }))
   .views((self) => ({
     get spinnerColor() {
-      return self.darkMode ? SpinnerColor.dark : SpinnerColor.light;
+      return self.darkMode ? SpinnerColor.light : SpinnerColor.dark;
     },
   }));
 

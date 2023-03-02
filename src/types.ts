@@ -1,3 +1,8 @@
+export type LoginParameters = {
+  email: string;
+  password: string;
+};
+
 export enum Role {
   admin = 'admin',
   user = 'user',
@@ -5,7 +10,7 @@ export enum Role {
 
 export enum SpinnerColor {
   dark = '#9DAD7F', // GPmid2
-  light = '#C7CFB7', // GPmid1
+  light = '#C7CFB7', // GPmid
 }
 
 export type TripCardData = {
@@ -23,7 +28,6 @@ export enum TripLabel {
 }
 
 export class User {
-  _id!: string;
   email!: string;
   name!: string;
   profilePic!: Buffer;
