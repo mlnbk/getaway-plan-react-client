@@ -7,7 +7,7 @@ const ToastNotification: FC = () => {
       position="top-left"
       toastOptions={{
         duration: 5000,
-        className: 'text-lg !bg-GPmid1 !dark:bg-GPmid2',
+        className: 'text-lg !bg-GPmid !dark:bg-GPmid2',
         error: {
           className: '!bg-rose-100',
         },

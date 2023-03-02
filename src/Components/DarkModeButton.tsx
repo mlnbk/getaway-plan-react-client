@@ -15,12 +15,12 @@ const BaseDarkModeButton: FC = () => {
         {uiStore.darkMode ? (
           <Moon
             data-testid={'dark-mode-button-icon'}
-            className="bg-GPmid2 text-GPlight w-8 h-8 p-2 rounded-full shadow"
+            className="bg-GPdarkBrown text-GPlight w-10 h-10 p-2 rounded-full shadow-lg"
           />
         ) : (
           <Sun
             data-testid={'dark-mode-button-icon'}
-            className="bg-GPmid1 text-GPdark2 w-8 h-8 p-2 rounded-full shadow"
+            className="bg-GPdarkGreen text-GPlightBrown w-10 h-10 p-2 rounded-full shadow-lg"
           />
         )}
       </div>

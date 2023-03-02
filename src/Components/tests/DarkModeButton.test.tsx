@@ -29,6 +29,6 @@ describe('DarkModeButton', () => {
     // });
 
     // expect(uiStore.darkMode).toBe(true);
-    // expect(buttonIcon).toHaveClass('bg-GPmid1', 'text-GPdark2');
+    // expect(buttonIcon).toHaveClass('bg-GPmid', 'text-GPdark2');
   });
 });

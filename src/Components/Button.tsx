@@ -22,8 +22,8 @@ const Button: FC<ButtonProperties> = ({
         w-[50%] py-2 px-4 
         rounded cursor-pointer
         font-bold text-sm uppercase shadow-md
-        bg-GPmid2 text-GPdark2 hover:bg-GPdark
-        dark:bg-GPdark2 dark:text-GPlight dark:hover:bg-opacity-90
+        bg-GPmid1 text-GPdark2 hover:bg-GPdark
+        dark:bg-GPdarkBrown dark:text-GPlight dark:hover:bg-opacity-90
         hover:shadow-xl
         transition-all duration-200 ease-in-out 
         ${className}`}

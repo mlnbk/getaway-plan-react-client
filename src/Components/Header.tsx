@@ -16,24 +16,31 @@ const BaseHeader: FC = () => {
   }, [location]);
 
   return (
-    <header className="header sticky grid grid-cols-3 items-center p-3 h-full w-full md:w-[85%] lg:w-[75%]">
-      <div className="justify-self-start">
+    <header
+      className="
+        header
+        sticky
+        grid grid-cols-2
+        items-center
+        border-b-2 border-GPmid2 dark:border-GPlightGreen border-opacity-50 dark:border-opacity-50
+        p-3 h-full w-full md:w-[85%] lg:w-[75%]"
+    >
+      <button className="justify-self-start" onClick={() => navigate('/home')}>
         <img
-          className="hidden dark:block max-h-10"
-          src="/GP-logo-transparent-brown.png"
+          className="hidden dark:block  max-h-10"
+          src="/GP-logo-transparent-light-green.png"
         />
         <img
           className="block dark:hidden max-h-10"
           src="/GP-logo-transparent-green.png"
         />
-      </div>
-      <div></div>
+      </button>
       {userStore.authenticated ? (
         <button
           onClick={() => navigate('profile/me')}
           className="avatar justify-self-end"
         >
-          <div className="w-8 rounded-full">
+          <div className="w-10 md:w-12 rounded-full border-2 border-GPlightGreen dark:border-GPlightBrown">
             <img
               src={`data:image/png;base64,${userStore.user?.profilePic}`}
               alt="Profile picture"

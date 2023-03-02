@@ -59,14 +59,14 @@ const BaseLogin: FC = () => {
           grid py-10 px-12
           rounded-lg shadow-xl
           w-80
-          bg-GPmid1 dark:bg-GPmid2
+          bg-GPlightBrown dark:bg-GPdarkGreen
           bg-opacity-95 dark:bg-opacity-95
           text-GPdark dark:text-GPlight"
         >
           <div className="box mb-3">
             <img
               className="hidden dark:block"
-              src="/GP-logo-transparent-brown.png"
+              src="/GP-logo-transparent-light.png"
             />
             <img
               className="block dark:hidden"

@@ -10,7 +10,7 @@ export enum Role {
 
 export enum SpinnerColor {
   dark = '#9DAD7F', // GPmid2
-  light = '#C7CFB7', // GPmid1
+  light = '#C7CFB7', // GPmid
 }
 
 export type TripCardData = {

@@ -19,10 +19,10 @@ const BaseApp: FC = () => {
       <ToastNotification />
       <div
         className="
-          grid gap-3 grid-flow-row grid-rows-[auto_1fr_auto]
+          grid gap-12 grid-flow-row grid-rows-[auto_1fr_auto]
           justify-items-center items-center
           w-full min-h-screen px-3
-          bg-GPlight dark:bg-GPdark"
+          bg-GPlight dark:bg-bgBaseDark"
       >
         <ErrorBoundary FallbackComponent={Error}>
           <Header />
