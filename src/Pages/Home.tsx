@@ -8,7 +8,7 @@ const Home: FC = () => {
   return (
     <div
       data-testid={'home-page'}
-      className="grid grid-cols-2 md:grid-cols-3 gap-6 p-3 h-full w-full md:w-[85%] lg:w-[75%]"
+      className="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10 p-6 h-full w-full md:w-[80%] lg:w-[70%]"
     >
       {upcomingTrips.map(
         ({ cardPicture, description, destination, title }, index) => {

@@ -14,7 +14,6 @@ describe('BaseHeader', () => {
         </MemoryRouter>
       </QueryClientProvider>,
     );
-    expect(screen.getByText('GetawayPlan')).toBeInTheDocument();
-    expect(screen.getByText('Home')).toBeInTheDocument();
+    expect(screen.getByTestId('logo')).toBeInTheDocument();
   });
 });

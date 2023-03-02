@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 const ToastNotification: FC = () => {
   return (
     <Toaster
+      data-testid={'toast'}
       position="top-left"
       toastOptions={{
         duration: 5000,

@@ -1,18 +1,27 @@
 import { FC, ReactNode } from 'react';
 
 interface InputProperties {
+  icon?: ReactNode;
   name: string;
-  type?: string;
+  placeholder?: string;
   register?: any;
-  icon: ReactNode;
+  type?: string;
 }
 
-const Input: FC<InputProperties> = ({ icon, name, register, type }) => {
+const Input: FC<InputProperties> = ({
+  icon,
+  name,
+  register,
+  placeholder,
+  type,
+}) => {
   return (
     <>
       <input
-        {...register(name)}
+        {...(register ? register(name) : {})}
         type={type ?? 'text'}
+        data-testid={'textbox'}
+        placeholder={placeholder}
         className="
           w-full p-2 mb-4
           border
@@ -25,7 +34,9 @@ const Input: FC<InputProperties> = ({ icon, name, register, type }) => {
           rounded-md outline-none
           transition duration-150 ease-in-out"
       />
-      <div className="flex justify-end">{icon}</div>
+      <div data-testid={'icon'} className="flex justify-end">
+        {icon}
+      </div>
     </>
   );
 };

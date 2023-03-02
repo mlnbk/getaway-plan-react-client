@@ -9,7 +9,6 @@ import { userStore } from '../Stores/UserStore';
 import { uiStore } from '../Stores/UIStore';
 
 import Button from '../Components/Button';
-import DarkModeButton from '../Components/DarkModeButton';
 import Form from '../Components/Form';
 import Footer from '../Components/Footer';
 import Input from '../Components/Input';
@@ -44,16 +43,15 @@ const BaseLogin: FC = () => {
   }, []);
 
   return (
-    <div className={`${uiStore.darkMode && 'dark'}`}>
+    <div data-testid={'login-page'} className={`${uiStore.darkMode && 'dark'}`}>
       <div
         className="
           grid gap-3 grid-flow-row grid-rows-[1fr_auto]
           justify-items-center items-center
-          w-full h-screen px-3
+          w-full h-screen
           bg-cover bg-center
           bg-mountain-green bg-opacity-50"
       >
-        <DarkModeButton />
         <div
           className="
           grid py-10 px-12
