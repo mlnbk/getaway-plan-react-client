@@ -17,10 +17,13 @@ const TripCard: FC<TripCardData> = ({
       )}
       <div className="card-body text-GPdark2 dark:text-GPlight">
         <h2 data-testid={'card-title'} className="card-title">
-          {title ??
+          {title ||
             destinations
               ?.map(
-                (destination) => destination.country + ', ' + destination.city,
+                (destination) =>
+                  `${destination.country}${
+                    destination.city ? `, ${destination.city}` : ''
+                  }`,
               )
               .join(', ')}
         </h2>

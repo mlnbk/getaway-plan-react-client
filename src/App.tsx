@@ -14,7 +14,10 @@ import AddTripModal from '@Components/Specific/AddTripModal';
 
 const BaseApp: FC = () => {
   return (
-    <div data-testid={'app'} className={`${uiStore.darkMode && 'dark'}`}>
+    <div
+      data-testid={'app'}
+      className={`${uiStore.darkMode && 'dark'} select-none`}
+    >
       <ToastNotification />
       <AddTripModal />
       <div

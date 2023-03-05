@@ -28,12 +28,10 @@ const BaseLogin: FC = () => {
         email: data.email.toLowerCase(),
         password: data.password,
       });
-    } catch (error) {
-      toast.error(String(error));
-    }
-    if (userStore.authenticated) {
       navigate('/home');
       toast.success(`Welcome, ${userStore.user?.name}!`);
+    } catch (error) {
+      toast.error(String(error));
     }
     setIsAuthenticating(false);
   };

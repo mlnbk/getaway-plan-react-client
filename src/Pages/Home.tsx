@@ -9,6 +9,7 @@ import { tripStore } from '@Stores/TripStore';
 import AddTripButton from '@Components/Specific/AddTripButton';
 import TripCard from '@Components/Specific/TripCard';
 import { uiStore } from '@Stores/UIStore';
+import { queryClient } from 'index';
 
 const Home: FC = () => {
   const [tripsState, setTripsStates] = useState<GetTripsForUserResponse>();
@@ -55,6 +56,20 @@ const Home: FC = () => {
         next={fetchItem}
         hasMore={tripsState?.hasMore ?? true}
         loader={<h4>Loading...</h4>}
+        refreshFunction={() => queryClient.invalidateQueries('trips')}
+        endMessage={
+          <p className="text-center">
+            <b>You reached the end. Add more trips!</b>
+          </p>
+        }
+        pullDownToRefresh
+        pullDownToRefreshThreshold={50}
+        pullDownToRefreshContent={
+          <h3 className="text-center">&#8595; Pull down to refresh</h3>
+        }
+        releaseToRefreshContent={
+          <h3 className="text-center">&#8593; Release to refresh</h3>
+        }
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10 p-6"
       >
         {tripsState?.trips.map(({ description, destinations, name }, index) => {
