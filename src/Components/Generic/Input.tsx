@@ -20,7 +20,7 @@ const Input: FC<InputProperties> = ({
       <input
         {...(register ? register(name) : {})}
         type={type ?? 'text'}
-        data-testid={'textbox'}
+        data-testid={`textbox-${name}`}
         placeholder={placeholder}
         className="
           w-full p-2 mb-4
