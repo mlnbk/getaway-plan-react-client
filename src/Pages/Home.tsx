@@ -1,28 +1,74 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { useQuery } from 'react-query';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { ClipLoader } from 'react-spinners';
 
-import { upcomingTrips } from '../mockData';
+import { GetTripsForUserResponse } from '@types';
+import { tripStore } from '@Stores/TripStore';
 
-import TripCard from '../Components/TripCard';
+import AddTripButton from '@Components/Specific/AddTripButton';
+import TripCard from '@Components/Specific/TripCard';
+import { uiStore } from '@Stores/UIStore';
 
 const Home: FC = () => {
+  const [tripsState, setTripsStates] = useState<GetTripsForUserResponse>();
+  const { isFetching } = useQuery('trips', async () => {
+    const result = await tripStore.getTripsForUser({});
+    setTripsStates(result);
+    return result;
+  });
+
+  const fetchItem = async () => {
+    try {
+      const tripsResponse = await tripStore.getTripsForUser({
+        skip: tripsState?.trips.length,
+      });
+      const fetchedTrips = tripsState?.trips ?? [];
+      setTripsStates({
+        trips: [...fetchedTrips, ...tripsResponse.trips],
+        hasMore: tripsResponse.hasMore,
+        total: tripsResponse.total,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (isFetching) {
+    return (
+      <ClipLoader
+        data-testid="loader"
+        color={uiStore.spinnerColor}
+        className="justify-center justify-self-center"
+      />
+    );
+  }
+
   return (
     <div
       data-testid={'home-page'}
-      className="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10 p-6 h-full w-full md:w-[80%] lg:w-[70%]"
+      className="justify-items-center h-full w-full md:w-[80%] lg:w-[70%]"
     >
-      {upcomingTrips.map(
-        ({ cardPicture, description, destination, title }, index) => {
+      <AddTripButton />
+      <InfiniteScroll
+        dataLength={tripsState?.trips.length ?? 0}
+        next={fetchItem}
+        hasMore={tripsState?.hasMore ?? true}
+        loader={<h4>Loading...</h4>}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10 p-6"
+      >
+        {tripsState?.trips.map(({ description, destinations, name }, index) => {
           return (
             <TripCard
               key={index}
-              cardPicture={cardPicture}
+              // cardPicture={cardPicture}
               description={description}
-              destination={destination}
-              title={title}
+              destinations={destinations}
+              title={name}
             />
           );
-        },
-      )}
+        })}
+      </InfiniteScroll>
     </div>
   );
 };

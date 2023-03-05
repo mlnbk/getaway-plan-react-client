@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import TripCard from '../TripCard';
+import TripCard from '@Components/Specific/TripCard';
 
 describe('TripCard', () => {
   const cardData = {

@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Form from '../Form';
-import Input from '../Input';
+
+import Form from '@Components/Generic/Form';
+import Input from '@Components/Generic/Input';
 
 describe('Form', () => {
   it('should render children', () => {

@@ -11,11 +11,11 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
-import Profile from './Pages/Profile';
-import Login from './Pages/Login';
-import Home from './Pages/Home';
+import Profile from '@Pages/Profile';
+import Login from '@Pages/Login';
+import Home from '@Pages/Home';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,

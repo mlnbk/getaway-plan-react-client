@@ -1,11 +1,11 @@
 import { FC } from 'react';
 
-import { TripCardData } from '../types';
+import { TripCardData } from '@types';
 
 const TripCard: FC<TripCardData> = ({
   cardPicture,
   description,
-  destination,
+  destinations,
   title,
 }) => {
   return (
@@ -17,7 +17,12 @@ const TripCard: FC<TripCardData> = ({
       )}
       <div className="card-body text-GPdark2 dark:text-GPlight">
         <h2 data-testid={'card-title'} className="card-title">
-          {title ?? destination}
+          {title ??
+            destinations
+              ?.map(
+                (destination) => destination.country + ', ' + destination.city,
+              )
+              .join(', ')}
         </h2>
         <p data-testid={'card-description'} className="line-clamp-3">
           {description}

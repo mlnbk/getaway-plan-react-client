@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GitHub } from 'react-feather';
-import Input from '../Input';
+
+import Input from '@Components/Generic/Input';
 
 describe('Input component', () => {
   it('renders an input with an icon', () => {

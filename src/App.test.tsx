@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { userStore } from './Stores/UserStore';
+import { userStore } from '@Stores/UserStore';
 import App from './App';
 
 describe('App', () => {
