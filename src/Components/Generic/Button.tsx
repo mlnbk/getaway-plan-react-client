@@ -25,7 +25,8 @@ const Button: FC<ButtonProperties> = ({
         bg-GPmid1 text-GPdark2 hover:bg-GPdark
         dark:bg-GPdarkBrown dark:text-GPlight dark:hover:bg-opacity-90
         hover:shadow-xl
-        transition-all duration-200 ease-in-out 
+        transition-all duration-200 ease-in-out
+        disabled:cursor-default disabled:dark:hover:bg-opacity-100 disabled:hover:shadow-none disabled:hover:bg-GPmid1 disabled:dark:hover:bg-GPdarkBrown
         ${className}`}
       onClick={onClick}
       disabled={disabled}

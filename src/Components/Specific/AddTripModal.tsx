@@ -20,8 +20,21 @@ interface AddressValues {
   city?: string;
 }
 
+interface FormValues {
+  name?: string;
+  description?: string;
+  country: string;
+  city: string;
+}
+
 const BaseAddTripModal: FC = () => {
-  const { handleSubmit, register, reset, control } = useForm();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({ mode: 'all' });
   const [isLoading, setIsLoading] = useState(false);
   const [addressValues, setAddressValues] = useState<AddressValues>();
   const countries = Country.getAllCountries();
@@ -39,7 +52,7 @@ const BaseAddTripModal: FC = () => {
       value: city.name,
     }));
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormValues) => {
     const { name, description, country, city } = data;
     setIsLoading(true);
     const addTripResult = await tripStore.addTrip({
@@ -85,81 +98,107 @@ const BaseAddTripModal: FC = () => {
         >
           <p>Name</p>
           <Input
-            register={register}
+            register={() =>
+              register('name', {
+                maxLength: {
+                  value: 20,
+                  message: 'Name must be less than 20 characters',
+                },
+              })
+            }
             name="name"
             placeholder={'Type the name your new trip...'}
           />
+          {errors.name && (
+            <p className="text-sm text-rose-500 -mt-6">{errors.name.message}</p>
+          )}
           <p>Description</p>
           <Input
-            register={register}
+            register={() => register('description')}
             name="description"
             placeholder={'Type the description your new trip...'}
           />
           <Controller
             name={'country'}
             control={control}
-            defaultValue={undefined}
+            rules={{ required: 'Country is required' }}
             render={({ field: { onChange } }) => {
               return (
-                <StyledSelect
-                  label="Country"
-                  name="country"
-                  placeholder="Pick a country"
-                  options={updatedCountries}
-                  value={
-                    addressValues?.country.label &&
-                    addressValues?.country.isoCode
-                      ? {
-                          label: addressValues.country.label,
-                          value: addressValues.country.isoCode,
-                        }
-                      : undefined
-                  }
-                  onChange={(newValue) => (
-                    setAddressValues(() => ({
-                      country: {
-                        label: newValue?.label,
-                        isoCode: newValue?.value,
-                      },
-                      city: undefined,
-                    })),
-                    onChange(newValue?.label)
+                <>
+                  <StyledSelect
+                    label="Country"
+                    name="country"
+                    placeholder="Pick a country"
+                    options={updatedCountries}
+                    value={
+                      addressValues?.country.label &&
+                      addressValues?.country.isoCode
+                        ? {
+                            label: addressValues.country.label,
+                            value: addressValues.country.isoCode,
+                          }
+                        : undefined
+                    }
+                    onChange={(newValue) => (
+                      setAddressValues(() => ({
+                        country: {
+                          label: newValue?.label,
+                          isoCode: newValue?.value,
+                        },
+                        city: undefined,
+                      })),
+                      onChange(newValue?.label)
+                    )}
+                  />
+                  {errors.country && (
+                    <p className="text-sm text-rose-500 -mt-4">
+                      {errors.country.message}
+                    </p>
                   )}
-                />
+                </>
               );
             }}
           />
           <Controller
             name={'city'}
             control={control}
-            defaultValue={undefined}
+            rules={{ required: 'City is required' }}
             render={({ field: { onChange } }) => {
               return (
-                <StyledSelect
-                  key={`${Math.random() * 1000}`}
-                  label="City"
-                  name="city"
-                  placeholder="Pick a city in the selected country"
-                  options={updatedCities(addressValues?.country?.isoCode ?? '')}
-                  value={
-                    addressValues?.city && addressValues?.city !== ''
-                      ? {
-                          label: addressValues.city,
-                          value: addressValues.city,
-                        }
-                      : undefined
-                  }
-                  onChange={(newValue) => (
-                    setAddressValues((previousAddressValues) => ({
-                      country: {
-                        label: previousAddressValues?.country.label,
-                        isoCode: previousAddressValues?.country.isoCode,
-                      },
-                      city: newValue?.label,
-                    })),
-                    onChange(newValue?.label)
+                <>
+                  <StyledSelect
+                    key={`${Math.random() * 1000}`}
+                    label="City"
+                    name="city"
+                    placeholder="Pick a city in the selected country"
+                    options={updatedCities(
+                      addressValues?.country?.isoCode ?? '',
+                    )}
+                    value={
+                      addressValues?.city && addressValues?.city !== ''
+                        ? {
+                            label: addressValues.city,
+                            value: addressValues.city,
+                          }
+                        : undefined
+                    }
+                    onChange={(newValue) => (
+                      setAddressValues((previousAddressValues) => ({
+                        country: {
+                          label: previousAddressValues?.country.label,
+                          isoCode: previousAddressValues?.country.isoCode,
+                        },
+                        city: newValue?.label,
+                      })),
+                      onChange(newValue?.label)
+                    )}
+                  />
+                  {errors.city && (
+                    <p className="text-sm text-rose-500 -mt-4">
+                      {errors.city.message}
+                    </p>
                   )}
-                />
+                </>
               );
             }}
           />

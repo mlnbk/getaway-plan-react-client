@@ -18,7 +18,7 @@ const Input: FC<InputProperties> = ({
   return (
     <>
       <input
-        {...(register ? register(name) : {})}
+        {...(register ? register() : {})}
         type={type ?? 'text'}
         data-testid={`textbox-${name}`}
         placeholder={placeholder}
