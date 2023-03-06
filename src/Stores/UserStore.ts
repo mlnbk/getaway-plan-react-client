@@ -1,13 +1,7 @@
-import {
-  applySnapshot,
-  onAction,
-  onPatch,
-  onSnapshot,
-  types,
-} from 'mobx-state-tree';
+import { applySnapshot, onSnapshot, types } from 'mobx-state-tree';
 
-import { LoginParameters, Role } from '../types';
-import { apiService } from '../Utils/APIService';
+import { LoginParameters, Role } from '@types';
+import { apiService } from '@Utils/APIService';
 
 const UserModel = types.model('User', {
   email: types.string,
@@ -44,7 +38,7 @@ const UserStore = types
       await this.getProfile();
     },
     async getProfile() {
-      const userResponse = await apiService.get('/user/me');
+      const userResponse = await apiService.get('/users/me');
       if (!userResponse) {
         throw new Error('Error while loggin in. Please try again later!');
       }

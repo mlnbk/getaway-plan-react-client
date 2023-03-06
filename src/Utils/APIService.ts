@@ -1,8 +1,13 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 import axiosRetry from 'axios-retry';
 import { toast } from 'react-hot-toast';
 
-import { userStore } from '../Stores/UserStore';
+import { userStore } from '@Stores/UserStore';
 
 const handleErrors = async (error: AxiosError) => {
   if (!error.response) {
@@ -48,7 +53,7 @@ class APIService {
     };
   }
 
-  async get(url: string, config: any = {}) {
+  async get(url: string, config: AxiosRequestConfig = {}) {
     try {
       config = this.addToken(config);
       const get = await this.apiClient.get(url, config);

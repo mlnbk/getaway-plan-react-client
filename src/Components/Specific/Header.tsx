@@ -2,9 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { userStore } from '../Stores/UserStore';
-
-import Button from './Button';
+import { userStore } from '@Stores/UserStore';
+import Button from '@Components/Generic/Button';
 
 const BaseHeader: FC = () => {
   const navigate = useNavigate();

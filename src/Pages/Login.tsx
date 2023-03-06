@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import { Lock, Mail } from 'react-feather';
 
-import { userStore } from '../Stores/UserStore';
-import { uiStore } from '../Stores/UIStore';
+import { userStore } from '@Stores/UserStore';
+import { uiStore } from '@Stores/UIStore';
 
-import Button from '../Components/Button';
-import Form from '../Components/Form';
-import Footer from '../Components/Footer';
-import Input from '../Components/Input';
+import Button from '@Components/Generic/Button';
+import Form from '@Components/Generic/Form';
+import Footer from '@Components/Specific/Footer';
+import Input from '@Components/Generic/Input';
 
 const BaseLogin: FC = () => {
   const navigate = useNavigate();
@@ -28,12 +28,10 @@ const BaseLogin: FC = () => {
         email: data.email.toLowerCase(),
         password: data.password,
       });
-    } catch (error) {
-      toast.error(String(error));
-    }
-    if (userStore.authenticated) {
       navigate('/home');
       toast.success(`Welcome, ${userStore.user?.name}!`);
+    } catch (error) {
+      toast.error(String(error));
     }
     setIsAuthenticating(false);
   };

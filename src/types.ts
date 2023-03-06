@@ -1,3 +1,43 @@
+export type AddTripParameters = {
+  name?: string;
+  description?: string;
+  invitedUsers?: string[];
+  startDate?: Date;
+  endDate?: Date;
+  destinations: Destination[];
+  budget?: Budget;
+};
+
+export type Budget = {
+  total?: number;
+  accomodation?: number;
+  transportation?: number;
+  food?: number;
+  activites?: number;
+};
+
+export type Destination = {
+  country: string;
+  city?: string;
+  address?: string;
+};
+
+export type GetTripsForUserParamters = {
+  filters?: {
+    invitedUsers?: string[];
+    status?: TripStatus[];
+    destinations?: Destination[];
+  };
+  skip?: number;
+  limit?: number;
+};
+
+export type GetTripsForUserResponse = {
+  trips: Trip[];
+  total: number;
+  hasMore: boolean;
+};
+
 export type LoginParameters = {
   email: string;
   password: string;
@@ -13,10 +53,21 @@ export enum SpinnerColor {
   light = '#C7CFB7', // GPmid
 }
 
+export type Trip = {
+  name?: string;
+  description?: string;
+  invitedUsers?: string[];
+  startDate?: Date;
+  endDate?: Date;
+  destinations: Destination[];
+  budget?: Budget;
+  picture?: string;
+};
+
 export type TripCardData = {
   title?: string;
   description?: string;
-  destination: string;
+  destinations?: Destination[];
   startDate?: string;
   endDate?: string;
   labels?: TripLabel[];
@@ -25,6 +76,12 @@ export type TripCardData = {
 
 export enum TripLabel {
   lastMinute = 'Last Minute',
+}
+
+export enum TripStatus {
+  past = 'past',
+  current = 'current',
+  upcoming = 'upcoming',
 }
 
 export class User {

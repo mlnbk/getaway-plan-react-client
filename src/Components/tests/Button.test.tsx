@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Button from '../Button';
+
+import Button from '@Components/Generic/Button';
 
 describe('Button', () => {
   test('renders button with correct label', () => {

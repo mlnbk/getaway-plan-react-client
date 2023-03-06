@@ -1,13 +1,18 @@
 import { types } from 'mobx-state-tree';
-import { SpinnerColor } from '../types';
+
+import { SpinnerColor } from '@types';
 
 const UIStore = types
   .model({
     darkMode: types.boolean,
+    isAddTripModalOpen: types.boolean,
   })
   .actions((self) => ({
     setDarkMode(isDark: boolean) {
       self.darkMode = isDark;
+    },
+    setIsAddTripModalOpen(open: boolean) {
+      self.isAddTripModalOpen = open;
     },
     toggleDarkMode() {
       self.darkMode = !self.darkMode;
@@ -21,4 +26,5 @@ const UIStore = types
 
 export const uiStore = UIStore.create({
   darkMode: true,
+  isAddTripModalOpen: false,
 });

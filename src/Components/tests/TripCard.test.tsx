@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 
-import TripCard from '../TripCard';
+import TripCard from '@Components/Specific/TripCard';
+import { TripCardData } from '@types';
 
 describe('TripCard', () => {
-  const cardData = {
+  const cardData: TripCardData = {
     cardPicture: 'https://example.com/picture.jpg',
     description: 'A test trip description',
-    destination: 'Test City',
+    destinations: [{ country: 'Test Country', city: 'Test City' }],
     title: 'Test Trip',
   };
 
