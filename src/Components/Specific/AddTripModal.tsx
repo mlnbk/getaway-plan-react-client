@@ -101,8 +101,8 @@ const BaseAddTripModal: FC = () => {
             register={() =>
               register('name', {
                 maxLength: {
-                  value: 20,
-                  message: 'Name must be less than 20 characters',
+                  value: 40,
+                  message: 'Name must be less than 40 characters',
                 },
               })
             }
@@ -116,6 +116,7 @@ const BaseAddTripModal: FC = () => {
           <Input
             register={() => register('description')}
             name="description"
+            isTextArea
             placeholder={'Type the description your new trip...'}
           />
           <Controller

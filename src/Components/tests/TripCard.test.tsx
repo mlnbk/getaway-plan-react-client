@@ -9,6 +9,7 @@ describe('TripCard', () => {
     description: 'A test trip description',
     destinations: [{ country: 'Test Country', city: 'Test City' }],
     title: 'Test Trip',
+    id: '12345678901234567890qwer',
   };
 
   it('should render the title and description', () => {

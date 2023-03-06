@@ -54,6 +54,7 @@ export enum SpinnerColor {
 }
 
 export type Trip = {
+  _id: string;
   name?: string;
   description?: string;
   invitedUsers?: string[];
@@ -65,6 +66,7 @@ export type Trip = {
 };
 
 export type TripCardData = {
+  id: string;
   title?: string;
   description?: string;
   destinations?: Destination[];
