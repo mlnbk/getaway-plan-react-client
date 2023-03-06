@@ -30,7 +30,7 @@ const Modal: FC<ModalProperties> = ({ children, isOpen, onClose, title }) => {
               >
                 ✕
               </button>
-              <h3 className="text-lg font-bold">{title}</h3>
+              <h3 className="text-xl font-bold">{title}</h3>
               <div className="py-4">{children}</div>
             </div>
           </div>

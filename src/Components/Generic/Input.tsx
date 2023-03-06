@@ -30,7 +30,7 @@ const Input: FC<InputProperties> = ({
           dark:text-white dark:text-opacity-80 focus:dark:text-opacity-100
           dark:bg-opacity-0
           border-GPdark dark:border-GPlight
-          bg-GPmid dark:bg-GPmid2 
+          bg-GPmid dark:bg-GPmid2
           rounded-md outline-none
           transition duration-150 ease-in-out"
       />

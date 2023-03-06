@@ -2,25 +2,50 @@ import { FC, useState } from 'react';
 import { observer } from 'mobx-react';
 import { toast } from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
+import { Country, City } from 'country-state-city';
+import { Controller, useForm } from 'react-hook-form';
+
+import { queryClient } from 'index';
 
 import { uiStore } from '@Stores/UIStore';
 import { tripStore } from '@Stores/TripStore';
 
-import Modal from '@Components/Generic/Modal';
-import Input from '@Components/Generic/Input';
 import Button from '@Components/Generic/Button';
-import Form from '@Components/Generic/Form';
-import { queryClient } from 'index';
+import Input from '@Components/Generic/Input';
+import Modal from '@Components/Generic/Modal';
+import StyledSelect from '@Components/Generic/Select';
+
+interface AddressValues {
+  country: { label?: string; isoCode?: string };
+  city?: string;
+}
 
 const BaseAddTripModal: FC = () => {
+  const { handleSubmit, register, reset, control } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [addressValues, setAddressValues] = useState<AddressValues>();
+  const countries = Country.getAllCountries();
+
+  const updatedCountries = countries.map((country) => ({
+    label: country.name,
+    value: country.isoCode,
+    ...country,
+  }));
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const updatedCities = (countryCode: string) =>
+    City.getCitiesOfCountry(countryCode)?.map((city) => ({
+      label: city.name,
+      value: city.name,
+    }));
 
   const onSubmit = async (data: any) => {
+    const { name, description, country, city } = data;
     setIsLoading(true);
     const addTripResult = await tripStore.addTrip({
-      name: data.tripName,
-      description: data.tripDescription,
-      destinations: [{ country: 'Austria', city: 'Klagenfurt' }],
+      name,
+      description,
+      destinations: [{ country, city }],
     });
     if (addTripResult) {
       toast.success('Trip successfully added!');
@@ -30,8 +55,13 @@ const BaseAddTripModal: FC = () => {
         'There was an error creating your new trip. Please try again!',
       );
     }
-    setIsLoading(false);
+    setAddressValues({
+      country: { label: undefined, isoCode: undefined },
+      city: undefined,
+    });
+    reset();
     queryClient.invalidateQueries({ queryKey: ['trips'] });
+    setIsLoading(false);
   };
 
   return (
@@ -41,29 +71,104 @@ const BaseAddTripModal: FC = () => {
       onClose={() => uiStore.setIsAddTripModalOpen(false)}
     >
       {isLoading ? (
-        <ClipLoader
-          data-testid="loader"
-          color={uiStore.spinnerColor}
-          className="justify-center justify-self-center"
-        />
+        <div className="grid">
+          <ClipLoader
+            data-testid="loader"
+            color={uiStore.spinnerColor}
+            className="justify-center justify-self-center"
+          />
+        </div>
       ) : (
-        <Form onSubmit={onSubmit}>
+        <form
+          className="grid max-w-md mx-auto mt-8 mb-0 gap-2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <p>Name</p>
           <Input
-            name="tripName"
+            register={register}
+            name="name"
             placeholder={'Type the name your new trip...'}
           />
           <p>Description</p>
           <Input
-            name="tripDescription"
+            register={register}
+            name="description"
             placeholder={'Type the description your new trip...'}
+          />
+          <Controller
+            name={'country'}
+            control={control}
+            defaultValue={undefined}
+            render={({ field: { onChange } }) => {
+              return (
+                <StyledSelect
+                  label="Country"
+                  name="country"
+                  placeholder="Pick a country"
+                  options={updatedCountries}
+                  value={
+                    addressValues?.country.label &&
+                    addressValues?.country.isoCode
+                      ? {
+                          label: addressValues.country.label,
+                          value: addressValues.country.isoCode,
+                        }
+                      : undefined
+                  }
+                  onChange={(newValue) => (
+                    setAddressValues(() => ({
+                      country: {
+                        label: newValue?.label,
+                        isoCode: newValue?.value,
+                      },
+                      city: undefined,
+                    })),
+                    onChange(newValue?.label)
+                  )}
+                />
+              );
+            }}
+          />
+          <Controller
+            name={'city'}
+            control={control}
+            defaultValue={undefined}
+            render={({ field: { onChange } }) => {
+              return (
+                <StyledSelect
+                  key={`${Math.random() * 1000}`}
+                  label="City"
+                  name="city"
+                  placeholder="Pick a city in the selected country"
+                  options={updatedCities(addressValues?.country?.isoCode ?? '')}
+                  value={
+                    addressValues?.city && addressValues?.city !== ''
+                      ? {
+                          label: addressValues.city,
+                          value: addressValues.city,
+                        }
+                      : undefined
+                  }
+                  onChange={(newValue) => (
+                    setAddressValues((previousAddressValues) => ({
+                      country: {
+                        label: previousAddressValues?.country.label,
+                        isoCode: previousAddressValues?.country.isoCode,
+                      },
+                      city: newValue?.label,
+                    })),
+                    onChange(newValue?.label)
+                  )}
+                />
+              );
+            }}
           />
           <Button
             label={'Add trip'}
             type={'submit'}
-            className={'justify-self-center self-center'}
+            className={'justify-self-center self-center mt-4'}
           />
-        </Form>
+        </form>
       )}
     </Modal>
   );
