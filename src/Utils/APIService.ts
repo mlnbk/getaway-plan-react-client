@@ -53,6 +53,16 @@ class APIService {
     };
   }
 
+  async delete(url: string, config: AxiosRequestConfig = {}) {
+    try {
+      config = this.addToken(config);
+      const get = await this.apiClient.delete(url, config);
+      return get?.data;
+    } catch (error: any) {
+      await handleErrors(error);
+    }
+  }
+
   async get(url: string, config: AxiosRequestConfig = {}) {
     try {
       config = this.addToken(config);
