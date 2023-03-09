@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
 import { Country, City } from 'country-state-city';
 import { Controller, useForm } from 'react-hook-form';
-import Dropzone, { useDropzone } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 
 import { queryClient } from 'index';
 
@@ -15,7 +15,6 @@ import Button from '@Components/Generic/Button';
 import Input from '@Components/Generic/Input';
 import Modal from '@Components/Generic/Modal';
 import StyledSelect from '@Components/Generic/Select';
-import { X } from 'react-feather';
 
 interface AddressValues {
   country: { label?: string; isoCode?: string };
@@ -27,6 +26,7 @@ interface FormValues {
   description?: string;
   country: string;
   city: string;
+  pictures?: any;
 }
 
 const BaseAddTripModal: FC = () => {
@@ -86,13 +86,19 @@ const BaseAddTripModal: FC = () => {
     }));
 
   const onSubmit = async (data: FormValues) => {
-    const { name, description, country, city } = data;
     setIsLoading(true);
-    const addTripResult = await tripStore.addTrip({
-      name,
-      description,
-      destinations: [{ country, city }],
-    });
+    const { name, description, country, city } = data;
+    const formData = new FormData();
+    formData.append(
+      'tripInfo',
+      JSON.stringify({
+        name,
+        description,
+        destinations: [{ country, city }],
+      }),
+    );
+    formData.append('tripPic', myFiles[0]);
+    const addTripResult = await tripStore.addTrip(formData);
     if (addTripResult) {
       toast.success('Trip successfully added!');
       uiStore.setIsAddTripModalOpen(false);

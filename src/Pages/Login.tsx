@@ -4,17 +4,18 @@ import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import { Lock, Mail } from 'react-feather';
+import { useForm } from 'react-hook-form';
 
 import { userStore } from '@Stores/UserStore';
 import { uiStore } from '@Stores/UIStore';
 
 import Button from '@Components/Generic/Button';
-import Form from '@Components/Generic/Form';
 import Footer from '@Components/Specific/Footer';
 import Input from '@Components/Generic/Input';
 
 const BaseLogin: FC = () => {
   const navigate = useNavigate();
+  const { handleSubmit, register } = useForm({});
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const onSubmit = async (data: any) => {
@@ -76,30 +77,33 @@ const BaseLogin: FC = () => {
               className="justify-center justify-self-center"
             />
           ) : (
-            <div className="box">
-              <Form onSubmit={onSubmit}>
-                <div className="font-medium">Email</div>
-                <Input
-                  name="email"
-                  icon={
-                    <Mail className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
-                  }
-                />
-                <div className="font-medium">Password</div>
-                <Input
-                  name="password"
-                  type="password"
-                  icon={
-                    <Lock className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
-                  }
-                />
-                <Button
-                  className="justify-self-center"
-                  label={'Login'}
-                  type={'submit'}
-                />
-              </Form>
-            </div>
+            <form
+              className="grid max-w-md mx-auto mt-8 mb-0 gap-2"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div className="font-medium">Email</div>
+              <Input
+                name="email"
+                register={() => register('email')}
+                icon={
+                  <Mail className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                }
+              />
+              <div className="font-medium">Password</div>
+              <Input
+                name="password"
+                type="password"
+                register={() => register('password')}
+                icon={
+                  <Lock className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                }
+              />
+              <Button
+                className="justify-self-center"
+                label={'Login'}
+                type={'submit'}
+              />
+            </form>
           )}
         </div>
         <Footer />
