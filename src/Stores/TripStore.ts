@@ -25,7 +25,6 @@ const TripStore = types.model().actions((self) => ({
     });
   },
   async addTrip(tripData: any) {
-    console.log('tripData', tripData);
     return apiService.post('/trips/add', tripData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });

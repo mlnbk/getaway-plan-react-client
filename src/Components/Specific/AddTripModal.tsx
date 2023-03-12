@@ -4,7 +4,8 @@ import { toast } from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
 import { Country, City } from 'country-state-city';
 import { Controller, useForm } from 'react-hook-form';
-import { useDropzone } from 'react-dropzone';
+import { FileRejection, useDropzone } from 'react-dropzone';
+import { isEmpty, omitBy } from 'lodash';
 
 import { queryClient } from 'index';
 
@@ -49,8 +50,21 @@ const BaseAddTripModal: FC = () => {
     [myFiles],
   );
 
+  const onDropRejected = useCallback(
+    (rejectedFiles: FileRejection[]) => {
+      toast.error(rejectedFiles[0].errors[0].message);
+    },
+    [myFiles],
+  );
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    onDropRejected,
+    maxFiles: 1,
+    accept: {
+      'image/jpeg': [],
+      'image/png': [],
+    },
   });
 
   const removeFile = (file: File) => () => {
@@ -89,14 +103,15 @@ const BaseAddTripModal: FC = () => {
     setIsLoading(true);
     const { name, description, country, city } = data;
     const formData = new FormData();
-    formData.append(
-      'tripInfo',
-      JSON.stringify({
+    const tripInfo = omitBy(
+      {
         name,
         description,
         destinations: [{ country, city }],
-      }),
+      },
+      isEmpty,
     );
+    formData.append('tripInfo', JSON.stringify(tripInfo));
     formData.append('tripPic', myFiles[0]);
     const addTripResult = await tripStore.addTrip(formData);
     if (addTripResult) {
@@ -135,10 +150,11 @@ const BaseAddTripModal: FC = () => {
           className="grid max-w-md mx-auto mt-8 mb-0 gap-2"
           onSubmit={handleSubmit(onSubmit)}
         >
+          <p>Trip picture</p>
           <section>
             <div
               className="
-                p-2 my-2
+                p-2 mb-4
                 dropzone
                 container border
                 text-sm
@@ -152,12 +168,12 @@ const BaseAddTripModal: FC = () => {
             >
               <input {...getInputProps()} />
               <p className="text-[#999]">
-                Drag 'n' drop some files here, or click to select files
+                Drag 'n' drop a picture here, or click to select a file
               </p>
             </div>
             {files.length > 0 && (
               <aside>
-                <h4 className="font-bold">Files</h4>
+                <h4 className="font-bold">File</h4>
                 <ul>{files}</ul>
               </aside>
             )}
@@ -166,7 +182,7 @@ const BaseAddTripModal: FC = () => {
                 className="btn btn-xs btn-outline btn-error my-3"
                 onClick={removeAll}
               >
-                Remove All
+                Remove
               </button>
             )}
           </section>

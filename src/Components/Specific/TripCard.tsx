@@ -33,7 +33,6 @@ const TripCard: FC<TripCardData> = ({
 
   const handleDelete = async (tripId: string) => {
     setIsLoading(true);
-    console.log(tripId);
     const deleteTripResult = await tripStore.deleteTrip(tripId);
     if (deleteTripResult?.ok) {
       toast.success('Trip successfully deleted!');
@@ -47,11 +46,11 @@ const TripCard: FC<TripCardData> = ({
 
   return (
     <div
-      className="card w-full relative bg-GPmid dark:bg-GPlightGreen shadow-xl cursor-pointer"
+      className="card break-inside-avoid w-full mb-4 bg-GPmid dark:bg-GPlightGreen shadow-xl cursor-pointer"
       onClick={handleClick}
     >
       {selected && (
-        <div className="modal-box absolute flex place-content-center h-full w-full scale-100 bg-gray-800 bg-opacity-80 overflow-hidden transition-all duration-300 ease-in-out">
+        <div className="modal-box rounded-2xl absolute flex place-content-center h-full w-full scale-100 bg-gray-800 bg-opacity-80 overflow-hidden transition-all duration-300 ease-in-out">
           <button
             className="btn btn-sm btn-circle absolute right-4 top-4"
             onClick={handleXClick}
@@ -66,7 +65,10 @@ const TripCard: FC<TripCardData> = ({
               className="place-self-center"
             />
           ) : (
-            <button onClick={() => handleDelete(id)}>
+            <button
+              className="text-rose-700 text-opacity-90"
+              onClick={() => handleDelete(id)}
+            >
               <Trash2 className="w-10 h-10" />
             </button>
           )}
@@ -74,11 +76,18 @@ const TripCard: FC<TripCardData> = ({
       )}
       {cardPicture && (
         <figure className="trip-card">
-          <img src={cardPicture} alt={title} />
+          <img
+            src={cardPicture}
+            alt={title}
+            className="trip-card rounded-t-2xl"
+          />
         </figure>
       )}
-      <div className="trip-card card-body text-GPdark2 dark:text-GPlight">
-        <h2 data-testid={'card-title'} className="trip-card card-title">
+      <div className="trip-card card-body p-4 lg:p-6 text-GPdark2 dark:text-GPlight">
+        <h2
+          data-testid={'card-title'}
+          className="trip-card card-title text-base md:text-lg"
+        >
           {title ||
             destinations
               ?.map(
@@ -89,7 +98,10 @@ const TripCard: FC<TripCardData> = ({
               )
               .join(', ')}
         </h2>
-        <p data-testid={'card-description'} className="line-clamp-3 trip-card">
+        <p
+          data-testid={'card-description'}
+          className="line-clamp-3 trip-card text-sm md:text-base"
+        >
           {description}
         </p>
       </div>
