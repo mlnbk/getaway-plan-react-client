@@ -1,9 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { observer } from 'mobx-react';
 import { toast } from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
 import { Country, City } from 'country-state-city';
 import { Controller, useForm } from 'react-hook-form';
+import { FileRejection, useDropzone } from 'react-dropzone';
+import { isEmpty, omitBy } from 'lodash';
 
 import { queryClient } from 'index';
 
@@ -25,6 +27,7 @@ interface FormValues {
   description?: string;
   country: string;
   city: string;
+  pictures?: any;
 }
 
 const BaseAddTripModal: FC = () => {
@@ -38,6 +41,50 @@ const BaseAddTripModal: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [addressValues, setAddressValues] = useState<AddressValues>();
   const countries = Country.getAllCountries();
+  const [myFiles, setMyFiles] = useState<File[]>([]);
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      setMyFiles([...myFiles, ...acceptedFiles]);
+    },
+    [myFiles],
+  );
+
+  const onDropRejected = useCallback(
+    (rejectedFiles: FileRejection[]) => {
+      toast.error(rejectedFiles[0].errors[0].message);
+    },
+    [myFiles],
+  );
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    onDropRejected,
+    maxFiles: 1,
+    accept: {
+      'image/jpeg': [],
+      'image/png': [],
+    },
+  });
+
+  const removeFile = (file: File) => () => {
+    const newFiles = [...myFiles];
+    newFiles.splice(newFiles.indexOf(file), 1);
+    setMyFiles(newFiles);
+  };
+
+  const removeAll = () => {
+    setMyFiles([]);
+  };
+
+  const files = myFiles.map((file) => (
+    <li key={file.name} className="flex justify-between">
+      <p>{file.name}</p>
+      <button className="btn btn-xs btn-circle" onClick={removeFile(file)}>
+        ✕
+      </button>
+    </li>
+  ));
 
   const updatedCountries = countries.map((country) => ({
     label: country.name,
@@ -53,13 +100,20 @@ const BaseAddTripModal: FC = () => {
     }));
 
   const onSubmit = async (data: FormValues) => {
-    const { name, description, country, city } = data;
     setIsLoading(true);
-    const addTripResult = await tripStore.addTrip({
-      name,
-      description,
-      destinations: [{ country, city }],
-    });
+    const { name, description, country, city } = data;
+    const formData = new FormData();
+    const tripInfo = omitBy(
+      {
+        name,
+        description,
+        destinations: [{ country, city }],
+      },
+      isEmpty,
+    );
+    formData.append('tripInfo', JSON.stringify(tripInfo));
+    formData.append('tripPic', myFiles[0]);
+    const addTripResult = await tripStore.addTrip(formData);
     if (addTripResult) {
       toast.success('Trip successfully added!');
       uiStore.setIsAddTripModalOpen(false);
@@ -96,6 +150,42 @@ const BaseAddTripModal: FC = () => {
           className="grid max-w-md mx-auto mt-8 mb-0 gap-2"
           onSubmit={handleSubmit(onSubmit)}
         >
+          <p>Trip picture</p>
+          <section>
+            <div
+              className="
+                p-2 mb-4
+                dropzone
+                container border
+                text-sm
+                focus:text-GPdark2
+                dark:text-white dark:text-opacity-80 focus:dark:text-opacity-100
+                dark:bg-opacity-0
+                border-GPdark dark:border-GPlight
+                bg-GPmid dark:bg-GPmid2
+                rounded-md outline-none"
+              {...getRootProps()}
+            >
+              <input {...getInputProps()} />
+              <p className="text-[#999]">
+                Drag 'n' drop a picture here, or click to select a file
+              </p>
+            </div>
+            {files.length > 0 && (
+              <aside>
+                <h4 className="font-bold">File</h4>
+                <ul>{files}</ul>
+              </aside>
+            )}
+            {files.length > 0 && (
+              <button
+                className="btn btn-xs btn-outline btn-error my-3"
+                onClick={removeAll}
+              >
+                Remove
+              </button>
+            )}
+          </section>
           <p>Name</p>
           <Input
             register={() =>

@@ -62,7 +62,7 @@ export type Trip = {
   endDate?: Date;
   destinations: Destination[];
   budget?: Budget;
-  picture?: string;
+  pictures?: string[];
 };
 
 export type TripCardData = {

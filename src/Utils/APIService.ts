@@ -56,8 +56,8 @@ class APIService {
   async delete(url: string, config: AxiosRequestConfig = {}) {
     try {
       config = this.addToken(config);
-      const get = await this.apiClient.delete(url, config);
-      return get?.data;
+      const deleteResponse = await this.apiClient.delete(url, config);
+      return deleteResponse?.data;
     } catch (error: any) {
       await handleErrors(error);
     }

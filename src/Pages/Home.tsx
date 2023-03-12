@@ -72,14 +72,14 @@ const Home: FC = () => {
         }
         className="grid grid-cols-1"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10 p-6">
+        <div className="columns-2 md:columns-3 lg:columns-4 px-3">
           {tripsState?.trips.map(
-            ({ _id, description, destinations, name }, index) => {
+            ({ _id, description, destinations, name, pictures }, index) => {
               return (
                 <TripCard
                   key={index}
                   id={_id}
-                  // cardPicture={cardPicture}
+                  cardPicture={pictures ? pictures[0] : ''}
                   description={description}
                   destinations={destinations}
                   title={name}
