@@ -73,7 +73,7 @@ const BaseAddTripModal: FC = () => {
     setMyFiles(newFiles);
   };
 
-  const removeAll = () => {
+  const removeAllPictures = () => {
     setMyFiles([]);
   };
 
@@ -127,6 +127,7 @@ const BaseAddTripModal: FC = () => {
       city: undefined,
     });
     reset();
+    removeAllPictures();
     queryClient.invalidateQueries({ queryKey: ['trips'] });
     setIsLoading(false);
   };
@@ -180,7 +181,7 @@ const BaseAddTripModal: FC = () => {
             {files.length > 0 && (
               <button
                 className="btn btn-xs btn-outline btn-error my-3"
-                onClick={removeAll}
+                onClick={removeAllPictures}
               >
                 Remove
               </button>

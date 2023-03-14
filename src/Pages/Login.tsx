@@ -78,7 +78,7 @@ const BaseLogin: FC = () => {
             />
           ) : (
             <form
-              className="grid max-w-md mx-auto mt-8 mb-0 gap-2"
+              className="grid w-full mx-auto mt-8 mb-0 gap-2"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="font-medium">Email</div>

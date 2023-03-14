@@ -19,6 +19,7 @@ const TripCard: FC<TripCardData> = ({
 }) => {
   const [selected, setSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
@@ -42,6 +43,10 @@ const TripCard: FC<TripCardData> = ({
     }
     queryClient.invalidateQueries({ queryKey: ['trips'] });
     setIsLoading(false);
+  };
+
+  const handleImageLoading = () => {
+    setIsImageLoaded(true);
   };
 
   return (
@@ -77,9 +82,12 @@ const TripCard: FC<TripCardData> = ({
       {cardPicture && (
         <figure className="trip-card">
           <img
+            className={`trip-card rounded-t-2xl w-full h-full transition-opacity duration-300 ${
+              isImageLoaded ? 'opacity-100 block' : 'opacity-20'
+            }`}
             src={cardPicture}
             alt={title}
-            className="trip-card rounded-t-2xl"
+            onLoad={handleImageLoading}
           />
         </figure>
       )}
