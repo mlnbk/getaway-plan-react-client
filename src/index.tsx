@@ -11,9 +11,10 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
-import Profile from '@Pages/Profile';
-import Login from '@Pages/Login';
 import Home from '@Pages/Home';
+import Login from '@Pages/Login';
+import Profile from '@Pages/Profile';
+import Trip from '@Pages/Trip';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: 'home', element: <Home /> },
+      { path: 'trips/:tripId', element: <Trip /> },
       { path: 'profile/me', element: <Profile /> },
       { path: '', element: <Navigate to="/home" replace /> },
       { path: '*', element: <Navigate to="/home" replace /> },
