@@ -76,18 +76,18 @@ const TripCard: FC<TripCardData> = ({
               className="place-self-center"
             />
           ) : (
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-6">
               <button
                 className="text-rose-700 text-opacity-90"
                 onClick={() => handleDelete(id)}
               >
-                <Trash2 className="w-10 h-10" />
+                <Trash2 className="w-8 h-8" />
               </button>
               <button
                 className="text-amber-500 text-opacity-90"
                 onClick={() => handleEdit(id)}
               >
-                <Edit className="w-10 h-10" />
+                <Edit className="w-8 h-8" />
               </button>
             </div>
           )}
