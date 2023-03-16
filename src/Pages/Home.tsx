@@ -48,14 +48,14 @@ const Home: FC = () => {
   return (
     <div
       data-testid={'home-page'}
-      className="justify-items-center h-full w-full md:w-[80%] lg:w-[70%]"
+      className="grid justify-items-center h-full w-full md:w-[80%] lg:w-[70%]"
     >
       <AddTripButton />
       <InfiniteScroll
         dataLength={tripsState?.trips.length ?? 0}
         next={fetchItem}
         hasMore={tripsState?.hasMore ?? true}
-        loader={<h4 className="justify-self-center">Loading...</h4>}
+        loader={<h4>Loading...</h4>}
         refreshFunction={() => queryClient.invalidateQueries('trips')}
         endMessage={
           <p className="text-center mt-8">

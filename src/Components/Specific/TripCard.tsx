@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
-import { Trash2 } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
+import { Edit, Trash2 } from 'react-feather';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-hot-toast';
 
@@ -20,6 +21,7 @@ const TripCard: FC<TripCardData> = ({
   const [selected, setSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
@@ -43,6 +45,10 @@ const TripCard: FC<TripCardData> = ({
     }
     queryClient.invalidateQueries({ queryKey: ['trips'] });
     setIsLoading(false);
+  };
+
+  const handleEdit = (tripId: string) => {
+    navigate(`/trips/${tripId}`);
   };
 
   const handleImageLoading = () => {
@@ -70,12 +76,20 @@ const TripCard: FC<TripCardData> = ({
               className="place-self-center"
             />
           ) : (
-            <button
-              className="text-rose-700 text-opacity-90"
-              onClick={() => handleDelete(id)}
-            >
-              <Trash2 className="w-10 h-10" />
-            </button>
+            <div className="grid grid-cols-2 gap-6">
+              <button
+                className="text-rose-700 text-opacity-90"
+                onClick={() => handleDelete(id)}
+              >
+                <Trash2 className="w-8 h-8" />
+              </button>
+              <button
+                className="text-amber-500 text-opacity-90"
+                onClick={() => handleEdit(id)}
+              >
+                <Edit className="w-8 h-8" />
+              </button>
+            </div>
           )}
         </div>
       )}
