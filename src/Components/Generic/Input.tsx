@@ -27,18 +27,19 @@ const Input: FC<InputProperties> = ({
   if (isTextArea) {
     return (
       <>
-        {label && optional && (
+        {label && (
           <div className={`flex gap-1 ${!open && 'py-2'}`}>
             <p>{label}</p>
-            {open ? (
-              <button type="button" onClick={() => setIsOpen(false)}>
-                <ChevronUp className="w-6 h-6" />
-              </button>
-            ) : (
-              <button type="button" onClick={() => setIsOpen(true)}>
-                <ChevronDown className="w-6 h-6" />
-              </button>
-            )}
+            {optional &&
+              (open ? (
+                <button type="button" onClick={() => setIsOpen(false)}>
+                  <ChevronUp className="w-6 h-6" />
+                </button>
+              ) : (
+                <button type="button" onClick={() => setIsOpen(true)}>
+                  <ChevronDown className="w-6 h-6" />
+                </button>
+              ))}
           </div>
         )}
         {(!optional || open) && (
@@ -71,22 +72,23 @@ const Input: FC<InputProperties> = ({
 
   return (
     <div className="">
-      {label && optional && (
+      {label && (
         <div className={`flex gap-1 ${!open && 'py-2'}`}>
           <p>{label}</p>
-          {open ? (
-            <button type="button" onClick={() => setIsOpen(false)}>
-              <ChevronUp className="w-6 h-6" />
-            </button>
-          ) : (
-            <button type="button" onClick={() => setIsOpen(true)}>
-              <ChevronDown className="w-6 h-6" />
-            </button>
-          )}
+          {optional &&
+            (open ? (
+              <button type="button" onClick={() => setIsOpen(false)}>
+                <ChevronUp className="w-6 h-6" />
+              </button>
+            ) : (
+              <button type="button" onClick={() => setIsOpen(true)}>
+                <ChevronDown className="w-6 h-6" />
+              </button>
+            ))}
         </div>
       )}
       {(!optional || open) && (
-        <>
+        <div className="relative">
           <input
             {...(register ? register() : {})}
             type={type ?? 'text'}
@@ -104,10 +106,13 @@ const Input: FC<InputProperties> = ({
             rounded-md outline-none
             transition duration-150 ease-in-out"
           />
-          <div data-testid={'icon'} className="flex justify-end">
+          <div
+            data-testid={'icon'}
+            className="absolute inset-y-0 right-0 pr-2 flex items-center"
+          >
             {icon}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

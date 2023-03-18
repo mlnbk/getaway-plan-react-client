@@ -78,28 +78,28 @@ const BaseLogin: FC = () => {
             />
           ) : (
             <form
-              className="grid w-full mx-auto mt-8 mb-0 gap-2"
+              className="grid w-full mx-auto mt-8 mb-0 gap-6"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <div className="font-medium">Email</div>
               <Input
                 name="email"
+                label="Email"
                 register={() => register('email')}
                 icon={
-                  <Mail className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                  <Mail className="h-5 w-5 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
                 }
               />
-              <div className="font-medium">Password</div>
               <Input
                 name="password"
+                label="Password"
                 type="password"
                 register={() => register('password')}
                 icon={
-                  <Lock className="h-6 -mt-14 pr-2 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                  <Lock className="h-5 w-5 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
                 }
               />
               <Button
-                className="justify-self-center"
+                className="justify-self-center mt-4"
                 label={'Login'}
                 type={'submit'}
               />
