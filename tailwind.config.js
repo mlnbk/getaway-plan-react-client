@@ -20,6 +20,8 @@ module.exports = {
         GPlightBrown: '#fefae0',
         GPmidBrown: '#dda15e',
         GPdarkBrown: '#bc6c25',
+        GPmodalBgDark: '#2A303C',
+        GPmodalTextDark: '#A6ADBB',
       },
       backgroundImage: {
         'mountain-green': "url('/public/green-bg-img.png')",

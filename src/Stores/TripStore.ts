@@ -1,6 +1,8 @@
 import { types } from 'mobx-state-tree';
 
 import {
+  City,
+  Country,
   GetTripsForUserParamters,
   GetTripsForUserResponse,
   Trip,
@@ -17,6 +19,14 @@ const TripStore = types.model().actions((self) => ({
   async deleteTrip(tripId: string) {
     return apiService.delete(`/trips/${tripId}`);
   },
+  async getCountries(): Promise<Country[]> {
+    return apiService.get(`/locations/countries`);
+  },
+  async getCitiesForCountry(countryCode: string): Promise<City[]> {
+    return apiService.get(`/locations/cities`, {
+      params: { countryCode },
+    });
+  },
   async getTripDetails(tripId: string): Promise<Trip> {
     return apiService.get(`/trips/${tripId}`);
   },
@@ -29,7 +39,7 @@ const TripStore = types.model().actions((self) => ({
       params: {
         filters,
         skip: skip ?? 0,
-        limit: limit ?? 15, // screen based
+        limit: limit ?? 15,
       },
     });
   },

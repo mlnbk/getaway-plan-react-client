@@ -19,11 +19,11 @@ const Modal: FC<ModalProperties> = ({ children, isOpen, onClose, title }) => {
     <>
       {isOpen && (
         <div
-          className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50"
+          className="fixed top-0 left-0 w-full flex items-center justify-center z-50"
           onClick={handleClick}
         >
           <div className="modal modal-open" ref={modalReference}>
-            <div className="modal-box relative">
+            <div className="modal-box relative bg-GPlight text-GPdark2 dark:bg-GPmodalBgDark dark:text-GPmodalTextDark">
               <button
                 className="btn btn-sm btn-circle absolute right-4 top-4"
                 onClick={onClose}
