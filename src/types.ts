@@ -16,6 +16,17 @@ export type Budget = {
   activites?: number;
 };
 
+export type City = {
+  name: string;
+  countryCode: string;
+};
+
+export type Country = {
+  name: string;
+  code: string;
+  imageUrl?: string;
+};
+
 export type Destination = {
   country: string;
   city?: string;

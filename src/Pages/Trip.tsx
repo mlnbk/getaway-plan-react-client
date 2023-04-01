@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { ClipLoader } from 'react-spinners';
 
+import { currencyPrefix } from '../constants';
 import { Trip } from '@types';
 import { tripStore } from '@Stores/TripStore';
 
@@ -38,17 +39,14 @@ const TripPage: FC = () => {
   return (
     <div
       data-testid={`trip-page-${tripId}`}
-      className="grid justify-items-center h-full w-[90%] md:w-[60%] lg:w-[40%]"
+      className="grid justify-items-center w-[90%] md:w-[60%] lg:w-[40%]"
     >
-      <div className="card mb-4 bg-GPmid dark:bg-GPlightGreen shadow-xl cursor-pointer">
-        <div className="card-body p-4 lg:p-6 text-GPdark2 dark:text-GPlight">
-          <h2
-            data-testid={'card-title'}
-            className="card-title text-base md:text-xl"
-          >
-            {trip?.name ?? 'Destinations'}
-          </h2>
-          <p data-testid={'card-description'} className="text-sm md:text-base">
+      <div className="card w-full bg-GPmid dark:bg-GPlightGreen shadow-xl">
+        <div className="card-body p-6 text-GPdark2 dark:text-GPlight">
+          <div className="text-sm md:text-base pb-3">
+            <p className="font-bold text-base md:text-xl pb-3">
+              {trip?.name ?? 'Destination'}
+            </p>
             {trip?.destinations
               ?.map(
                 (destination) =>
@@ -57,34 +55,41 @@ const TripPage: FC = () => {
                   }`,
               )
               .join(', ')}
-          </p>
+          </div>
           {!!trip?.description && (
-            <p
-              data-testid={'card-description'}
-              className="text-sm md:text-base"
-            >
-              {trip?.description}
-            </p>
+            <p className="text-sm md:text-base">{trip?.description}</p>
           )}
           {!!trip?.description && (
-            <p
-              data-testid={'card-description'}
-              className="text-sm md:text-base"
-            >
-              {trip?.description}
-            </p>
+            <p className="text-sm md:text-base">{trip?.description}</p>
+          )}
+          {!!trip?.budget && (
+            <div className="text-sm md:text-base">
+              <p className="font-bold text-base md:text-xl pb-3">Budget</p>
+              <div className="grid grid-cols-[auto_1fr] gap-y-3 gap-x-12 items-center">
+                <p>Accomodation</p>
+                <p>
+                  {currencyPrefix} {trip.budget.accomodation}
+                </p>
+                <p>Activites</p>
+                <p>
+                  {currencyPrefix} {trip.budget.activites}
+                </p>
+                <p>Food</p>
+                <p>
+                  {currencyPrefix} {trip.budget.food}
+                </p>
+                <p>Transportation</p>
+                <p>
+                  {currencyPrefix} {trip.budget.transportation}
+                </p>
+                <p className="font-bold">Total</p>
+                <p className="font-bold">
+                  {currencyPrefix} {trip.budget.total}
+                </p>
+              </div>
+            </div>
           )}
         </div>
-        {trip?.pictures && (
-          <img
-            className={`rounded-b-2xl w-full transition-opacity duration-300 ${
-              isImageLoaded ? 'opacity-100 block' : 'opacity-20'
-            }`}
-            src={trip?.pictures[0]}
-            alt={trip.destinations[0].city}
-            onLoad={handleImageLoading}
-          />
-        )}
         {trip?.invitedUsers && trip?.invitedUsers?.length > 0 && (
           <div className="p-6">
             <h2 className="text-lg font-bold">Invited Users</h2>
@@ -100,6 +105,16 @@ const TripPage: FC = () => {
               {`${trip?.startDate} to ${trip?.endDate}`}
             </p>
           </div>
+        )}
+        {trip?.pictures && trip.pictures.length > 0 && (
+          <img
+            className={`rounded-b-2xl w-full transition-opacity duration-300 ${
+              isImageLoaded ? 'opacity-100 block' : 'opacity-20'
+            }`}
+            src={trip?.pictures[0]}
+            alt={trip.destinations[0].city}
+            onLoad={handleImageLoading}
+          />
         )}
       </div>
     </div>
