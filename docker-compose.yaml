@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  getawayplan-react-client:
+    image: mlnbk/getawayplan-react-client:0.1
+    container_name: getawayplan-react-client
+    env_file:
+      - ./.env
+    networks:
+      - traefik-public
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.backend=getawayplan-react-client'
+      - 'traefik.http.routers.getawayplan-react-client.rule=Host(`getaway-plan.com`)'
+      - 'traefik.http.routers.getawayplan-react-client.entrypoints=websecure'
+      - 'traefik.http.routers.getawayplan-react-client.tls.certresolver=myresolver'
+      - 'traefik.http.services.getawayplan-react-client.loadbalancer.server.port=3000'
+
+networks:
+  traefik-public:
+    external: true
