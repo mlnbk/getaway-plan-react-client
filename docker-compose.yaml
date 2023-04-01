@@ -1,4 +1,5 @@
 version: '3.9'
+
 services:
   getawayplan-react-client:
     image: mlnbk/getawayplan-react-client:0.1
@@ -9,12 +10,23 @@ services:
       - traefik-public
     labels:
       - 'traefik.enable=true'
-      - 'traefik.backend=getawayplan-react-client'
-      - 'traefik.http.routers.getawayplan-react-client.rule=Host(`getaway-plan.com`)'
+      - 'traefik.http.middlewares.redirect-to-nonwww.redirectregex.regex=^https://www.(.*)'
+      - 'traefik.http.middlewares.redirect-to-nonwww.redirectregex.replacement=https://$${1}'
+      - 'traefik.http.middlewares.redirect-to-nonwww.redirectregex.permanent=true'
+      - 'traefik.http.middlewares.https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.middlewares.https-redirect.redirectscheme.permanent=true'
       - 'traefik.http.routers.getawayplan-react-client.entrypoints=websecure'
+      - 'traefik.http.routers.getawayplan-react-client.rule=Host(`getaway-plan.com`) || Host(`www.getaway-plan.com`)'
       - 'traefik.http.routers.getawayplan-react-client.tls.certresolver=myresolver'
-      - 'traefik.http.services.getawayplan-react-client.loadbalancer.server.port=3000'
-
+      - 'traefik.http.routers.getawayplan-react-client.middlewares=https-redirect,redirect-to-nonwww'
+      - 'traefik.http.middlewares.getawayplan-react-client-redirect-websecure.redirectscheme.scheme=https'
+      - 'traefik.http.routers.getawayplan-react-client-web.middlewares=getawayplan-react-client-redirect-websecure'
+      - 'traefik.http.routers.getawayplan-react-client-web.rule=Host(`getaway-plan.com`) || Host(`www.getaway-plan.com`)'
+      - 'traefik.http.routers.getawayplan-react-client-web.entrypoints=web'
+      - 'traefik.http.routers.getawayplan-react-client-websecure.rule=Host(`getaway-plan.com`) || Host(`www.getaway-plan.com`)'
+      - 'traefik.http.routers.getawayplan-react-client-websecure.tls.certresolver=myresolver'
+      - 'traefik.http.routers.getawayplan-react-client-websecure.tls=true'
+      - 'traefik.http.routers.getawayplan-react-client-websecure.entrypoints=websecure'
 networks:
   traefik-public:
     external: true
