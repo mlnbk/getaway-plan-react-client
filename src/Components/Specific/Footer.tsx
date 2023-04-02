@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { GitHub } from 'react-feather';
 
-import { uiStore } from '@Stores/UIStore';
+// import { uiStore } from '@Stores/UIStore';
 
 const Footer: FC = () => {
   return (

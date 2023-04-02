@@ -5,11 +5,10 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { uiStore } from '@Stores/UIStore';
 
+import AddTripModal from '@Components/Specific/AddTripModal';
 import Error from '@Components/Specific/Error';
 import Footer from '@Components/Specific/Footer';
 import Header from '@Components/Specific/Header';
-import ToastNotification from '@Components/Generic/Toast';
-import AddTripModal from '@Components/Specific/AddTripModal';
 
 const BaseApp: FC = () => {
   return (

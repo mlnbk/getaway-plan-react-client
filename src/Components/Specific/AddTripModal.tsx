@@ -4,14 +4,20 @@ import { toast } from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
 import { Controller, useForm } from 'react-hook-form';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { isEmpty, omitBy } from 'lodash';
 import CurrencyInput from 'react-currency-input-field';
 import { useQuery } from 'react-query';
 
 import { queryClient } from 'index';
 
 import { currencyPrefix } from '../../constants';
-import { City, Country } from '@types';
+import {
+  Budget,
+  City,
+  Country,
+  limitDecimals,
+  omitUndefinedProperties,
+  Trip,
+} from '@types';
 
 import { uiStore } from '@Stores/UIStore';
 import { tripStore } from '@Stores/TripStore';
@@ -32,7 +38,7 @@ interface FormValues {
   country: string;
   city: string;
   pictures?: any;
-  budget: any; // FIXME add type
+  budget: Budget;
 }
 
 const BaseAddTripModal: FC = () => {
@@ -124,18 +130,25 @@ const BaseAddTripModal: FC = () => {
     setIsLoading(true);
     const { budget, name, description, country, city } = data;
     const formData = new FormData();
-    const tripInfo = omitBy(
-      {
-        name,
-        description,
-        destinations: [{ country, city }],
-        budget: {
-          ...budget,
-          total: calculateTotal()?.toFixed(2),
-        },
-      },
-      isEmpty,
+    const tripInfo = omitUndefinedProperties<Omit<Trip, '_id'>>({
+      name,
+      description,
+      destinations: [{ country, city }],
+    });
+    const isBudgetDefined = Object.values(budget).some(
+      (property) => property !== undefined,
     );
+    const { accomodation, activities, food, transportation } = budget;
+    if (isBudgetDefined) {
+      tripInfo.budget = {
+        accomodation: accomodation ? limitDecimals(accomodation) : '0.00',
+        activities: activities ? limitDecimals(activities) : '0.00',
+        food: food ? limitDecimals(food) : '0.00',
+        transportation: transportation ? limitDecimals(transportation) : '0.00',
+        total: calculateTotal()?.toFixed(2),
+      };
+    }
+    console.log(tripInfo);
     formData.append('tripInfo', JSON.stringify(tripInfo));
     formData.append('tripPic', myFiles[0]);
     const addTripResult = await tripStore.addTrip(formData);
@@ -163,8 +176,8 @@ const BaseAddTripModal: FC = () => {
     return Object.values(values)
       .filter((value) => typeof value === 'string')
       .reduce(
-        (accumulator: number, current: unknown) =>
-          Number(accumulator) + Number(current as string),
+        (accumulator: number, current: string) =>
+          Number(accumulator) + Number(current),
         0,
       );
   };
@@ -174,6 +187,7 @@ const BaseAddTripModal: FC = () => {
     if (!addressValues?.country?.code) return;
     const fetchCitiesForCountry = async () => {
       const getCitiesResult = await tripStore.getCitiesForCountry(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         addressValues.country.code!,
       );
       setCities(() => getCitiesResult);
@@ -374,7 +388,7 @@ const BaseAddTripModal: FC = () => {
             />
             <p className="col-start-1">Activities</p>
             <Controller
-              name={'budget.activites'}
+              name={'budget.activities'}
               control={control}
               render={({ field: { onChange } }) => {
                 return (

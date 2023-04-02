@@ -12,7 +12,6 @@ import { uiStore } from '@Stores/UIStore';
 import Button from '@Components/Generic/Button';
 import Footer from '@Components/Specific/Footer';
 import Input from '@Components/Generic/Input';
-import ToastNotification from '@Components/Generic/Toast';
 
 const BaseLogin: FC = () => {
   const navigate = useNavigate();
