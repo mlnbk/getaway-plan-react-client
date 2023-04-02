@@ -54,9 +54,22 @@ export type LoginParameters = {
   password: string;
 };
 
+export const passwordRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!#$%&*?@])[\d!#$%&*?@A-Za-z]{8,}$/;
+
 export enum Role {
   admin = 'admin',
   user = 'user',
+}
+
+export type SignupFormValues = SignupParameters & {
+  confirm: string;
+};
+
+export interface SignupParameters {
+  name: string;
+  email: string;
+  password: string;
 }
 
 export enum SpinnerColor {

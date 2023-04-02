@@ -33,7 +33,7 @@ const Footer: FC = () => {
         </span>
         <div className="form-control justify-self-start md:col-start-2 md:justify-self-end">
           <label className="label cursor-pointer grid grid-flow-col gap-1">
-            <span className="label-text text-xs text-GPlightGreen dark:text-GPlight text-opacity-80 dark:text-opacity-80">
+            {/* <span className="label-text text-xs text-GPlightGreen dark:text-GPlight text-opacity-80 dark:text-opacity-80">
               Dark Mode
             </span>
             <input
@@ -41,7 +41,7 @@ const Footer: FC = () => {
               className="toggle toggle-sm"
               defaultChecked={uiStore.darkMode}
               onClick={uiStore.toggleDarkMode}
-            />
+            /> */}
           </label>
         </div>
         <ul className="grid grid-flow-col auto-cols-max md:justify-self-end divide-x">

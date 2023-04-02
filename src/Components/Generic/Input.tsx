@@ -29,7 +29,9 @@ const Input: FC<InputProperties> = ({
       <>
         {label && (
           <div className={`flex gap-1 ${!open && 'py-2'}`}>
-            <p>{label}</p>
+            <p>
+              {label} {!optional && '*'}
+            </p>
             {optional &&
               (open ? (
                 <button type="button" onClick={() => setIsOpen(false)}>
@@ -74,7 +76,9 @@ const Input: FC<InputProperties> = ({
     <div className="">
       {label && (
         <div className={`flex gap-1 ${!open && 'py-2'}`}>
-          <p>{label}</p>
+          <p>
+            {label} {!optional && '*'}
+          </p>
           {optional &&
             (open ? (
               <button type="button" onClick={() => setIsOpen(false)}>

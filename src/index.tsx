@@ -14,7 +14,11 @@ import App from './App';
 import Home from '@Pages/Home';
 import Login from '@Pages/Login';
 import Profile from '@Pages/Profile';
+import Signup from '@Pages/Signup';
 import Trip from '@Pages/Trip';
+import Verify from '@Pages/Verify';
+import ProtectedRoute from '@Components/Generic/ProtectedRoute';
+import ToastNotification from '@Components/Generic/Toast';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +31,7 @@ export const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <ProtectedRoute element={<App />} />,
     children: [
       { path: 'home', element: <Home /> },
       { path: 'trips/:tripId', element: <Trip /> },
@@ -40,6 +44,14 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
   },
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  {
+    path: '/verify',
+    element: <Verify />,
+  },
   { path: '', element: <Navigate to="/home" replace /> },
   { path: '*', element: <Navigate to="/home" replace /> },
 ]);
@@ -50,6 +62,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      <ToastNotification />
       <RouterProvider router={router} />
     </QueryClientProvider>
   </React.StrictMode>,

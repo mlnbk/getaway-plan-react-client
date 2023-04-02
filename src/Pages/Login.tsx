@@ -12,6 +12,7 @@ import { uiStore } from '@Stores/UIStore';
 import Button from '@Components/Generic/Button';
 import Footer from '@Components/Specific/Footer';
 import Input from '@Components/Generic/Input';
+import ToastNotification from '@Components/Generic/Toast';
 
 const BaseLogin: FC = () => {
   const navigate = useNavigate();
@@ -77,33 +78,41 @@ const BaseLogin: FC = () => {
               className="justify-center justify-self-center"
             />
           ) : (
-            <form
-              className="grid w-full mx-auto mt-8 mb-0 gap-6"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <Input
-                name="email"
-                label="Email"
-                register={() => register('email')}
-                icon={
-                  <Mail className="h-5 w-5 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
-                }
-              />
-              <Input
-                name="password"
-                label="Password"
-                type="password"
-                register={() => register('password')}
-                icon={
-                  <Lock className="h-5 w-5 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
-                }
-              />
-              <Button
-                className="justify-self-center mt-4"
-                label={'Login'}
-                type={'submit'}
-              />
-            </form>
+            <>
+              <form
+                className="grid w-full mx-auto mt-8 mb-0 gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <Input
+                  name="email"
+                  label="Email"
+                  register={() => register('email')}
+                  icon={
+                    <Mail className="h-5 w-5 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                  }
+                />
+                <Input
+                  name="password"
+                  label="Password"
+                  type="password"
+                  register={() => register('password')}
+                  icon={
+                    <Lock className="h-5 w-5 text-GPdark dark:text-GPlight opacity-50 pointer-events-none" />
+                  }
+                />
+                <Button
+                  className="justify-self-center mt-4"
+                  label={'Login'}
+                  type={'submit'}
+                />
+              </form>
+              <a
+                href={`/signup`}
+                className="text-center text-sm pt-6 underline"
+              >
+                Sign up
+              </a>
+            </>
           )}
         </div>
         <Footer />

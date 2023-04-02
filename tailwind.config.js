@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         openSans: ['Open Sans', 'sans-serif'],
       },
+      spacing: {
+        120: '30rem',
+      },
       colors: {
         bgBaseDark: '#121212',
         GPlight: '#F7F7E8',
@@ -24,7 +27,8 @@ module.exports = {
         GPmodalTextDark: '#A6ADBB',
       },
       backgroundImage: {
-        'mountain-green': "url('/public/green-bg-img.png')",
+        'mountain-green': "url('/public/green-mountains.png')",
+        'valley-purple': "url('/public/purple-valley.jpg')",
       },
     },
   },
