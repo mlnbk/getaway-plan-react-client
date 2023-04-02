@@ -1,16 +1,14 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { uiStore } from '@Stores/UIStore';
-import { userStore } from '@Stores/UserStore';
 
+import AddTripModal from '@Components/Specific/AddTripModal';
 import Error from '@Components/Specific/Error';
 import Footer from '@Components/Specific/Footer';
 import Header from '@Components/Specific/Header';
-import ToastNotification from '@Components/Generic/Toast';
-import AddTripModal from '@Components/Specific/AddTripModal';
 
 const BaseApp: FC = () => {
   return (
@@ -18,7 +16,6 @@ const BaseApp: FC = () => {
       data-testid={'app'}
       className={`${uiStore.darkMode && 'dark'} select-none`}
     >
-      <ToastNotification />
       <AddTripModal />
       <div
         className="
@@ -29,11 +26,7 @@ const BaseApp: FC = () => {
       >
         <ErrorBoundary FallbackComponent={Error}>
           <Header />
-          {userStore.authenticated ? (
-            <Outlet />
-          ) : (
-            <Navigate to="/login" replace />
-          )}
+          <Outlet />
         </ErrorBoundary>
         <Footer />
       </div>

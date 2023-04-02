@@ -1,6 +1,6 @@
 import { applySnapshot, onSnapshot, types } from 'mobx-state-tree';
 
-import { LoginParameters, Role } from '@types';
+import { LoginParameters, Role, SignupParameters } from '@types';
 import { apiService } from '@Utils/APIService';
 
 const UserModel = types.model('User', {
@@ -55,6 +55,29 @@ const UserStore = types
     },
     setToken(token: string) {
       self.token = token;
+    },
+    async signUp({
+      name,
+      email,
+      password,
+    }: SignupParameters): Promise<string | undefined> {
+      const signupResponse = await apiService.post('auth/signup', {
+        name,
+        email,
+        password,
+      });
+      if (signupResponse?.message) {
+        return signupResponse?.message;
+      }
+    },
+    async verifyEmailToken(email: string, token: string) {
+      const verifyResponse = await apiService.post('auth/verify', {
+        email,
+        token,
+      });
+      if (verifyResponse?.message) {
+        return verifyResponse?.message;
+      }
     },
   }))
   .views((self) => ({

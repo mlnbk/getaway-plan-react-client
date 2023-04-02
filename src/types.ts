@@ -9,11 +9,11 @@ export type AddTripParameters = {
 };
 
 export type Budget = {
-  total?: number;
-  accomodation?: number;
-  transportation?: number;
-  food?: number;
-  activites?: number;
+  accomodation?: string;
+  activities?: string;
+  food?: string;
+  transportation?: string;
+  total?: string;
 };
 
 export type City = {
@@ -49,14 +49,47 @@ export type GetTripsForUserResponse = {
   hasMore: boolean;
 };
 
+export const limitDecimals = (amount: string, limit?: number) => {
+  return String(Number(amount).toFixed(limit ?? 2));
+};
+
 export type LoginParameters = {
   email: string;
   password: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const omitUndefinedProperties = <T extends {}, V = Valuable<T>>(
+  object: T,
+): V => {
+  return Object.fromEntries(
+    Object.entries(object).filter(
+      ([, v]) =>
+        !(
+          (typeof v === 'string' && v.length === 0) ||
+          v === null ||
+          v === undefined
+        ),
+    ),
+  ) as V;
+};
+
+export const passwordRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!#$%&*?@])[\d!#$%&*?@A-Za-z]{8,}$/; // at least 8 characters, 1 digit and 1 special character
+
 export enum Role {
   admin = 'admin',
   user = 'user',
+}
+
+export type SignupFormValues = SignupParameters & {
+  confirm: string;
+};
+
+export interface SignupParameters {
+  name: string;
+  email: string;
+  password: string;
 }
 
 export enum SpinnerColor {
@@ -103,3 +136,7 @@ export class User {
   profilePic!: Buffer;
   roles!: Role[];
 }
+
+type Valuable<T> = {
+  [K in keyof T as T[K] extends null | undefined ? never : K]: T[K];
+};

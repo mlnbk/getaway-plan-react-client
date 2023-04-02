@@ -9,7 +9,7 @@ import {
 } from '@types';
 import { apiService } from '@Utils/APIService';
 
-const TripStore = types.model().actions((self) => ({
+const TripStore = types.model().actions(() => ({
   async addTrip(tripData: FormData) {
     const result = apiService.post('/trips/add', tripData, {
       headers: { 'Content-Type': 'multipart/form-data' },

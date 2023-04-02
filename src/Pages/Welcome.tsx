@@ -9,7 +9,7 @@ import { userStore } from '@Stores/UserStore';
 
 import Button from '@Components/Generic/Button';
 
-const BaseProfile: FC = () => {
+const BaseWelcome: FC = () => {
   const navigate = useNavigate();
   const { isFetching } = useQuery('profile', async () => {
     return userStore.getProfile();
@@ -38,7 +38,7 @@ const BaseProfile: FC = () => {
       >
         <div className="card-body text-GPdark2 dark:text-GPlight">
           <div className="avatar self-center p-2">
-            <div className="w-24 rounded-full border-2 border-GPlightGreen dark:border-GPlightBrown">
+            <div className="w-24 rounded-full">
               <img
                 src={`data:image/png;base64,${userStore.user?.profilePic}`}
                 alt="Profile picture"
@@ -68,5 +68,5 @@ const BaseProfile: FC = () => {
   );
 };
 
-const Profile = observer(BaseProfile);
-export default Profile;
+const Welcome = observer(BaseWelcome);
+export default Welcome;

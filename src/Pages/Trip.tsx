@@ -59,10 +59,7 @@ const TripPage: FC = () => {
           {!!trip?.description && (
             <p className="text-sm md:text-base">{trip?.description}</p>
           )}
-          {!!trip?.description && (
-            <p className="text-sm md:text-base">{trip?.description}</p>
-          )}
-          {!!trip?.budget && (
+          {!!trip?.budget?.total && (
             <div className="text-sm md:text-base">
               <p className="font-bold text-base md:text-xl pb-3">Budget</p>
               <div className="grid grid-cols-[auto_1fr] gap-y-3 gap-x-12 items-center">
@@ -70,9 +67,9 @@ const TripPage: FC = () => {
                 <p>
                   {currencyPrefix} {trip.budget.accomodation}
                 </p>
-                <p>Activites</p>
+                <p>Activities</p>
                 <p>
-                  {currencyPrefix} {trip.budget.activites}
+                  {currencyPrefix} {trip.budget.activities}
                 </p>
                 <p>Food</p>
                 <p>
