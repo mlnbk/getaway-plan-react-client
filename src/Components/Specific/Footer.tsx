@@ -8,7 +8,7 @@ const Footer: FC = () => {
     <footer
       data-testid={'footer'}
       className="
-        mt-auto p-4 md:p-6
+        mt-auto p-4 md:px-0 md:py-6
         bg-GPmid dark:bg-GPdarkGreen
         text-sm
         text-GPlightGreen dark:text-GPlight
@@ -22,11 +22,8 @@ const Footer: FC = () => {
           w-full md:w-[80%] lg:w-[70%]"
       >
         <span className="row-start-2">
-          © 2023{' '}
-          <a
-            href="https://github.com/mlnbk/getaway-plan-react-client"
-            className="hover:underline"
-          >
+          2023{' '}
+          <a href="https://github.com/mlnbk" className="hover:underline">
             mlnbk
           </a>
           <GitHub size={16} className="inline-block mx-1" />
@@ -46,17 +43,23 @@ const Footer: FC = () => {
         </div>
         <ul className="grid grid-flow-col auto-cols-max md:justify-self-end divide-x">
           <li>
-            <a href="#" className="hover:underline pr-1.5">
+            <a
+              href="https://getaway-plan.com/index"
+              className="hover:underline pr-1.5"
+            >
               About
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="#" className="hover:underline p-1.5">
               Privacy Policy
             </a>
-          </li>
+          </li> */}
           <li>
-            <a href="#" className="hover:underline p-1.5">
+            <a
+              href="https://github.com/mlnbk"
+              className="hover:underline p-1.5"
+            >
               Contact
             </a>
           </li>

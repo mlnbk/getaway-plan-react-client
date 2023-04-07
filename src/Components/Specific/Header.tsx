@@ -56,7 +56,7 @@ const BaseHeader: FC = () => {
         ) : (
           showLoginButton && (
             <Button
-              className="justify-self-end"
+              className="justify-self-end w-20"
               label={'Login'}
               onClick={() => navigate('/login')}
             />

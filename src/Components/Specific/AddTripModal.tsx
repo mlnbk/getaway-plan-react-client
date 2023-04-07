@@ -172,7 +172,7 @@ const BaseAddTripModal: FC = () => {
 
   const calculateTotal = () => {
     const values = watch('budget');
-    if (!values) return;
+    if (!values) return 0;
     return Object.values(values)
       .filter((value) => typeof value === 'string')
       .reduce(
@@ -473,9 +473,9 @@ const BaseAddTripModal: FC = () => {
             </p>
           </div>
           <Button
-            label={'Add trip'}
-            type={'submit'}
-            className={'justify-self-center self-center mt-4'}
+            label="Add trip"
+            type="submit"
+            className="justify-self-center self-center w-40 mt-4"
           />
         </form>
       )}

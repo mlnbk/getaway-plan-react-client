@@ -11,14 +11,17 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
+
+import ProtectedRoute from '@Components/Generic/ProtectedRoute';
+import ToastNotification from '@Components/Generic/Toast';
+
 import Home from '@Pages/Home';
 import Login from '@Pages/Login';
 import Profile from '@Pages/Profile';
 import Signup from '@Pages/Signup';
 import Trip from '@Pages/Trip';
 import Verify from '@Pages/Verify';
-import ProtectedRoute from '@Components/Generic/ProtectedRoute';
-import ToastNotification from '@Components/Generic/Toast';
+import Landing from '@Pages/Landing';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +44,11 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: '/index',
+    element: <App />,
+    children: [{ path: '', element: <Landing /> }],
+  },
+  {
     path: '/login',
     element: <Login />,
   },
@@ -52,8 +60,8 @@ const router = createBrowserRouter([
     path: '/verify',
     element: <Verify />,
   },
-  { path: '', element: <Navigate to="/home" replace /> },
-  { path: '*', element: <Navigate to="/home" replace /> },
+  { path: '', element: <Navigate to="/index" replace /> },
+  { path: '*', element: <Navigate to="/index" replace /> },
 ]);
 
 const root = ReactDOM.createRoot(

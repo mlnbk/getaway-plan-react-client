@@ -2,14 +2,17 @@ import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ClipLoader } from 'react-spinners';
+import { Plus } from 'react-feather';
+
+import { queryClient } from 'index';
 
 import { GetTripsForUserResponse } from '@types';
+
+import { uiStore } from '@Stores/UIStore';
 import { tripStore } from '@Stores/TripStore';
 
-import AddTripButton from '@Components/Specific/AddTripButton';
+import FloatingButton from '@Components/Generic/FloatingButton';
 import TripCard from '@Components/Specific/TripCard';
-import { uiStore } from '@Stores/UIStore';
-import { queryClient } from 'index';
 
 const Home: FC = () => {
   const [tripsState, setTripsStates] = useState<GetTripsForUserResponse>();
@@ -50,7 +53,9 @@ const Home: FC = () => {
       data-testid={'home-page'}
       className="grid justify-items-center h-full w-full md:w-[80%] lg:w-[70%]"
     >
-      <AddTripButton />
+      <FloatingButton onClick={() => uiStore.setIsAddTripModalOpen(true)}>
+        <Plus className="bg-GPdarkGreen dark:bg-GPdarkBrown text-GPlightBrown dark:text-GPlight w-10 h-10 p-2 rounded-full shadow-lg" />
+      </FloatingButton>
       <InfiniteScroll
         dataLength={tripsState?.trips.length ?? 0}
         next={fetchItem}

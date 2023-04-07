@@ -55,7 +55,7 @@ const BaseSignup: FC = () => {
           justify-items-center items-center
           w-full h-screen
           bg-cover bg-center
-          bg-valley-purple bg-opacity-50"
+          bg-snowy-valley bg-opacity-50"
       >
         <div
           className="
@@ -98,7 +98,7 @@ const BaseSignup: FC = () => {
                 confirmation email we just sent you.
               </p>
               <Button
-                className="justify-self-center mt-4"
+                className="justify-self-center w-28 mt-4"
                 label={'Login'}
                 type={'submit'}
                 onClick={() => navigate('/login')}
@@ -180,7 +180,7 @@ const BaseSignup: FC = () => {
                   </p>
                 )}
                 <Button
-                  className="justify-self-center mt-4"
+                  className="justify-self-center w-28 mt-4"
                   label={'Signup'}
                   type={'submit'}
                 />

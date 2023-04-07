@@ -49,7 +49,7 @@ const BaseLogin: FC = () => {
           justify-items-center items-center
           w-full h-screen
           bg-cover bg-center
-          bg-mountain-green bg-opacity-50"
+          bg-sunset-valley bg-opacity-50"
       >
         <div
           className="
@@ -100,7 +100,7 @@ const BaseLogin: FC = () => {
                   }
                 />
                 <Button
-                  className="justify-self-center mt-4"
+                  className="justify-self-center mt-4 w-28"
                   label={'Login'}
                   type={'submit'}
                 />
