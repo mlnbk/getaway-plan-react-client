@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { userStore } from '@Stores/UserStore';
 import Button from '@Components/Generic/Button';
@@ -55,11 +55,16 @@ const BaseHeader: FC = () => {
           </button>
         ) : (
           showLoginButton && (
-            <Button
-              className="justify-self-end w-20"
-              label={'Login'}
-              onClick={() => navigate('/login')}
-            />
+            <div className="grid grid-flow-col gap-3 md:gap-6 items-center justify-self-end">
+              <Link className="underline" to={'/login'}>
+                Login
+              </Link>
+              <Button
+                className="justify-self-end w-20"
+                label={'Signup'}
+                onClick={() => navigate('/signup')}
+              />
+            </div>
           )
         )}
       </div>
