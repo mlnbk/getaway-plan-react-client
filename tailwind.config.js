@@ -27,8 +27,9 @@ module.exports = {
         GPmodalTextDark: '#A6ADBB',
       },
       backgroundImage: {
-        'mountain-green': "url('/public/green-mountains.png')",
-        'valley-purple': "url('/public/purple-valley.jpg')",
+        'sunset-mountain': "url('/public/sunset-mountain.jpg')",
+        'sunset-valley': "url('/public/sunset-valley.png')",
+        'snowy-valley': "url('/public/snowy-valley.jpg')",
       },
     },
   },

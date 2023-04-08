@@ -63,7 +63,7 @@ const BaseProfile: FC = () => {
           </h2>
         </div>
       </div>
-      <Button label={'Logout'} onClick={handleLogout} />
+      <Button className="w-40" label={'Logout'} onClick={handleLogout} />
     </div>
   );
 };
