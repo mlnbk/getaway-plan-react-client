@@ -58,6 +58,10 @@ const BaseHome: FC = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    uiStore.setSelectedTrip();
+  });
+
   if (isFetching) {
     return (
       <ClipLoader

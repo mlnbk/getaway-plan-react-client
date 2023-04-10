@@ -56,7 +56,7 @@ const BaseHeader: FC = () => {
         ) : (
           showLoginButton && (
             <div className="grid grid-flow-col gap-3 md:gap-6 items-center justify-self-end">
-              <Link className="underline" to={'/login'}>
+              <Link className="underline visited:text-inherit" to={'/login'}>
                 Login
               </Link>
               <Button
