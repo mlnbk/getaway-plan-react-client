@@ -6,6 +6,8 @@ const UIStore = types
   .model({
     darkMode: types.boolean,
     isAddTripModalOpen: types.boolean,
+    isDeleteTripModalOpen: types.boolean,
+    selectedTrip: types.maybe(types.string),
   })
   .actions((self) => ({
     setDarkMode(isDark: boolean) {
@@ -13,6 +15,12 @@ const UIStore = types
     },
     setIsAddTripModalOpen(open: boolean) {
       self.isAddTripModalOpen = open;
+    },
+    setIsDeleteTripModalOpen(open: boolean) {
+      self.isDeleteTripModalOpen = open;
+    },
+    setSelectedTrip(id?: string) {
+      self.selectedTrip = id;
     },
     toggleDarkMode() {
       self.darkMode = !self.darkMode;
@@ -27,4 +35,5 @@ const UIStore = types
 export const uiStore = UIStore.create({
   darkMode: true,
   isAddTripModalOpen: false,
+  isDeleteTripModalOpen: false,
 });

@@ -60,7 +60,10 @@ const BaseLogin: FC = () => {
           bg-opacity-95 dark:bg-opacity-95
           text-GPdark dark:text-GPlight"
         >
-          <div className="box mb-3">
+          <div
+            className="box mb-3 cursor-pointer"
+            onClick={() => navigate('/')}
+          >
             <img
               className="hidden dark:block"
               src="/GP-logo-transparent-light.png"

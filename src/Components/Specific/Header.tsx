@@ -30,7 +30,7 @@ const BaseHeader: FC = () => {
         <button
           data-testid={'logo'}
           className="justify-self-start"
-          onClick={() => navigate('/home')}
+          onClick={() => navigate(userStore.authenticated ? '/home' : '/')}
         >
           <img
             className="hidden dark:block max-h-10"

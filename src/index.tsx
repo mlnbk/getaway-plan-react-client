@@ -39,14 +39,9 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'trips/:tripId', element: <Trip /> },
       { path: 'profile/me', element: <Profile /> },
-      { path: '', element: <Navigate to="/home" replace /> },
-      { path: '*', element: <Navigate to="/home" replace /> },
+      { path: '', element: <Landing /> },
+      { path: '*', element: <Navigate to="/" replace /> },
     ],
-  },
-  {
-    path: '/index',
-    element: <App />,
-    children: [{ path: '', element: <Landing /> }],
   },
   {
     path: '/login',
