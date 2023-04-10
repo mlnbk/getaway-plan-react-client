@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import { userStore } from '@Stores/UserStore';
 
@@ -8,7 +8,13 @@ interface RouteProperties {
 }
 
 const ProtectedRoute: FC<RouteProperties> = ({ element }) => {
-  return userStore.authenticated ? element : <Navigate to="/login" replace />;
+  const location = useLocation();
+
+  return userStore.authenticated || location.pathname === '/' ? (
+    element
+  ) : (
+    <Navigate to="/" replace />
+  );
 };
 
 export default ProtectedRoute;

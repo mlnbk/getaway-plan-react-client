@@ -66,7 +66,10 @@ const BaseSignup: FC = () => {
           bg-opacity-95 dark:bg-opacity-95
           text-GPdark dark:text-GPlight"
         >
-          <div className="grid items-center mb-3">
+          <div
+            className="grid items-center mb-3 cursor-pointer"
+            onClick={() => navigate('/')}
+          >
             {isSuccess ? (
               <img
                 className="hidden dark:block max-h-16 justify-self-center"

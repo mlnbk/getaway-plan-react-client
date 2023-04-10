@@ -44,7 +44,7 @@ const Footer: FC = () => {
         <ul className="grid grid-flow-col auto-cols-max md:justify-self-end divide-x">
           <li>
             <a
-              href="https://getaway-plan.com/index"
+              href="https://getaway-plan.com"
               className="hover:underline pr-1.5"
             >
               About
