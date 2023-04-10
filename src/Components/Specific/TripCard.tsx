@@ -47,7 +47,7 @@ const BaseTripCard: FC<TripCardData> = ({
       onClick={handleClick}
     >
       {uiStore.selectedTrip === id && (
-        <div className="modal-box rounded-2xl absolute flex place-content-center h-full w-full scale-100 bg-gray-800 bg-opacity-80 overflow-hidden transition-all duration-300 ease-in-out">
+        <div className="modal-box rounded-2xl absolute flex place-content-center h-full w-full scale-100 bg-gray-800 bg-opacity-80 overflow-hidden">
           <button
             className="btn btn-sm btn-circle absolute right-4 top-4"
             onClick={handleXClick}

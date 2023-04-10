@@ -21,7 +21,7 @@ const Button: FC<ButtonProperties> = ({
       className={`
         py-2 px-4 
         rounded cursor-pointer
-        font-bold text-sm uppercase shadow-md
+        font-bold text-sm text-center uppercase shadow-md
         bg-GPmid1 text-GPdark2 hover:bg-GPdark
         dark:bg-GPdarkBrown dark:text-GPlight dark:hover:bg-opacity-90
         hover:shadow-xl
