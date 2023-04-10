@@ -1,54 +1,40 @@
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Edit, Trash2 } from 'react-feather';
-import { ClipLoader } from 'react-spinners';
-import { toast } from 'react-hot-toast';
-
-import { queryClient } from 'index';
+import { Eye, Trash2 } from 'react-feather';
+import { observer } from 'mobx-react-lite';
 
 import { TripCardData } from '@types';
 
 import { uiStore } from '@Stores/UIStore';
-import { tripStore } from '@Stores/TripStore';
 
-const TripCard: FC<TripCardData> = ({
+const BaseTripCard: FC<TripCardData> = ({
   cardPicture,
   description,
   destinations,
   title,
   id,
 }) => {
-  const [selected, setSelected] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     if (target.classList.contains('trip-card')) {
-      setSelected((previousState) => !previousState);
+      uiStore.setSelectedTrip(id);
     }
   };
 
   const handleXClick = () => {
-    setSelected(false);
+    uiStore.setSelectedTrip();
   };
 
-  const handleDelete = async (tripId: string) => {
-    setIsLoading(true);
-    const deleteTripResult = await tripStore.deleteTrip(tripId);
-    if (deleteTripResult?.ok) {
-      toast.success('Trip successfully deleted!');
-      uiStore.setIsAddTripModalOpen(false);
-    } else {
-      toast.error('There was an error deleting your trip. Please try again!');
-    }
-    queryClient.invalidateQueries({ queryKey: ['trips'] });
-    setIsLoading(false);
+  const handleDelete = () => {
+    uiStore.setSelectedTrip(id);
+    uiStore.setIsDeleteTripModalOpen(true);
   };
 
-  const handleEdit = (tripId: string) => {
-    navigate(`/trips/${tripId}`);
+  const handleEdit = () => {
+    navigate(`/trips/${id}`);
   };
 
   const handleImageLoading = () => {
@@ -60,37 +46,28 @@ const TripCard: FC<TripCardData> = ({
       className="card break-inside-avoid w-full mb-4 bg-GPmid dark:bg-GPlightGreen shadow-xl cursor-pointer"
       onClick={handleClick}
     >
-      {selected && (
+      {uiStore.selectedTrip === id && (
         <div className="modal-box rounded-2xl absolute flex place-content-center h-full w-full scale-100 bg-gray-800 bg-opacity-80 overflow-hidden transition-all duration-300 ease-in-out">
           <button
             className="btn btn-sm btn-circle absolute right-4 top-4"
             onClick={handleXClick}
-            disabled={isLoading}
           >
             ✕
           </button>
-          {isLoading ? (
-            <ClipLoader
-              data-testid="loader"
-              color={uiStore.spinnerColor}
-              className="place-self-center"
-            />
-          ) : (
-            <div className="grid grid-cols-2 gap-6">
-              <button
-                className="text-rose-700 text-opacity-90"
-                onClick={() => handleDelete(id)}
-              >
-                <Trash2 className="w-8 h-8" />
-              </button>
-              <button
-                className="text-amber-500 text-opacity-90"
-                onClick={() => handleEdit(id)}
-              >
-                <Edit className="w-8 h-8" />
-              </button>
-            </div>
-          )}
+          <div className="grid grid-cols-2 gap-6">
+            <button
+              className="text-rose-700 text-opacity-90"
+              onClick={handleDelete}
+            >
+              <Trash2 className="w-8 h-8" />
+            </button>
+            <button
+              className="text-amber-500 text-opacity-90"
+              onClick={handleEdit}
+            >
+              <Eye className="w-8 h-8" />
+            </button>
+          </div>
         </div>
       )}
       {cardPicture && (
@@ -130,5 +107,7 @@ const TripCard: FC<TripCardData> = ({
     </div>
   );
 };
+
+const TripCard = observer(BaseTripCard);
 
 export default TripCard;

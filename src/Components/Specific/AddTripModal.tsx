@@ -148,7 +148,6 @@ const BaseAddTripModal: FC = () => {
         total: calculateTotal()?.toFixed(2),
       };
     }
-    console.log(tripInfo);
     formData.append('tripInfo', JSON.stringify(tripInfo));
     formData.append('tripPic', myFiles[0]);
     const addTripResult = await tripStore.addTrip(formData);
