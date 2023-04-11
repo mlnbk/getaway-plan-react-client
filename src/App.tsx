@@ -4,9 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { uiStore } from '@Stores/UIStore';
-import { userStore } from '@Stores/UserStore';
 
-import AddTripModal from '@Components/Specific/AddTripModal';
 import Error from '@Components/Specific/Error';
 import Footer from '@Components/Specific/Footer';
 import Header from '@Components/Specific/Header';
@@ -17,7 +15,6 @@ const BaseApp: FC = () => {
       data-testid={'app'}
       className={`${uiStore.darkMode && 'dark'} select-none`}
     >
-      {userStore.authenticated && <AddTripModal />}
       <div
         className="
           grid gap-12 grid-flow-row grid-rows-[auto_1fr_auto]

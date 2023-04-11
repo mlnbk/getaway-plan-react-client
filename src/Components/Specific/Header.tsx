@@ -23,7 +23,6 @@ const BaseHeader: FC = () => {
         grid
         justify-items-center
         bg-GPmid2 dark:bg-GPlightGreen bg-opacity-30 dark:bg-opacity-50
-        border-b-2 border-GPmid2 dark:border-GPlightGreen border-opacity-50 dark:border-opacity-50
         p-3 h-full w-full"
     >
       <div className="grid grid-cols-2 justify-items-center w-full md:w-[80%] lg:w-[70%]">
@@ -56,7 +55,7 @@ const BaseHeader: FC = () => {
         ) : (
           showLoginButton && (
             <div className="grid grid-flow-col gap-3 md:gap-6 items-center justify-self-end">
-              <Link className="underline visited:text-inherit" to={'/login'}>
+              <Link className="underline dark:text-GPlight" to={'/login'}>
                 Login
               </Link>
               <Button

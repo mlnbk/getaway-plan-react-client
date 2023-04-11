@@ -1,10 +1,10 @@
 import { types } from 'mobx-state-tree';
 
 import {
-  City,
-  Country,
+  Budget,
   GetTripsForUserParamters,
   GetTripsForUserResponse,
+  limitDecimals,
   Trip,
 } from '@types';
 import { apiService } from '@Utils/APIService';
@@ -18,14 +18,6 @@ const TripStore = types.model().actions(() => ({
   },
   async deleteTrip(tripId: string) {
     return apiService.delete(`/trips/${tripId}`);
-  },
-  async getCountries(): Promise<Country[]> {
-    return apiService.get(`/locations/countries`);
-  },
-  async getCitiesForCountry(countryCode: string): Promise<City[]> {
-    return apiService.get(`/locations/cities`, {
-      params: { countryCode },
-    });
   },
   async getTripDetails(tripId: string): Promise<Trip> {
     return apiService.get(`/trips/${tripId}`);
@@ -42,6 +34,21 @@ const TripStore = types.model().actions(() => ({
         limit: limit ?? 15,
       },
     });
+  },
+  calculateTripBudget({
+    accomodation,
+    activities,
+    food,
+    transportation,
+    total,
+  }: Budget) {
+    return {
+      accomodation: accomodation ? limitDecimals(accomodation) : '0.00',
+      activities: activities ? limitDecimals(activities) : '0.00',
+      food: food ? limitDecimals(food) : '0.00',
+      transportation: transportation ? limitDecimals(transportation) : '0.00',
+      total,
+    };
   },
 }));
 

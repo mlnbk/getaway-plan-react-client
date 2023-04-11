@@ -34,7 +34,7 @@ const Landing: FC = () => {
           <ChevronUp className="bg-GPdarkGreen dark:bg-GPdarkBrown text-GPlightBrown dark:text-GPlight w-10 h-10 p-2 rounded-full shadow-lg" />
         </FloatingButton>
       )}
-      <div className="dark grid justify-items-center w-full h-full -mt-24">
+      <div className="grid justify-items-center w-full h-full -mt-24">
         <div
           className="
           justify-items-center items-center
@@ -62,7 +62,7 @@ const Landing: FC = () => {
             </div>
           </div>
         </div>
-        <div className="grid gap-12 md:gap-20 w-full md:w-[80%] lg:w-[70%] px-4 md:px-0 py-12">
+        <div className="grid gap-12 md:gap-20 w-full md:w-[80%] lg:w-[70%] px-4 md:px-0 py-12 dark:text-GPlight">
           <div id="mindset">
             <h1 className="text-4xl font-bold py-4">Mindset</h1>
             <p>

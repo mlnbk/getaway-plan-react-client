@@ -5,7 +5,7 @@ const ToastNotification: FC = () => {
   return (
     <Toaster
       data-testid={'toast'}
-      position="top-left"
+      position="top-right"
       toastOptions={{
         duration: 5000,
         className: 'text-lg !bg-GPmid !dark:bg-GPmid2',

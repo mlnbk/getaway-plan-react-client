@@ -13,6 +13,7 @@ import { GetTripsForUserResponse } from '@types';
 import { uiStore } from '@Stores/UIStore';
 import { tripStore } from '@Stores/TripStore';
 
+import AddTripModal from '@Components/Specific/AddTripModal';
 import Button from '@Components/Generic/Button';
 import FloatingButton from '@Components/Generic/FloatingButton';
 import Modal from '@Components/Generic/Modal';
@@ -60,7 +61,7 @@ const BaseHome: FC = () => {
 
   useEffect(() => {
     uiStore.setSelectedTrip();
-  });
+  }, []);
 
   if (isFetching) {
     return (
@@ -77,6 +78,7 @@ const BaseHome: FC = () => {
       data-testid={'home-page'}
       className="grid justify-items-center h-full w-full md:w-[80%] lg:w-[70%]"
     >
+      <AddTripModal />
       <Modal
         title={'Are you sure you want to delete your trip?'}
         isOpen={uiStore.isDeleteTripModalOpen}
@@ -92,7 +94,7 @@ const BaseHome: FC = () => {
           ) : (
             <>
               <p>This action cannot be undone!</p>
-              <Button label="Delete" onClick={handleDelete} />
+              <Button label="Delete" className="w-20" onClick={handleDelete} />
             </>
           )}
         </div>

@@ -5,6 +5,7 @@ export type AddTripParameters = {
   startDate?: Date;
   endDate?: Date;
   destinations: Destination[];
+  tripPic?: string;
   budget?: Budget;
 };
 

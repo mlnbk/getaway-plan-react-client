@@ -50,4 +50,17 @@ code {
   .styled-select-container .styled-select__single-value {
     @apply text-sm text-neutral-600 dark:text-neutral-200;
   }
+
+  .addTripInput {
+    @apply w-full h-full p-2
+      border
+      text-sm
+      focus:text-GPdark2
+      dark:text-white dark:text-opacity-80 focus:dark:text-opacity-100
+      dark:bg-opacity-0
+      border-GPdark dark:border-GPlight
+      bg-GPmid dark:bg-GPmid2
+      rounded-md outline-GPmid2
+      transition duration-150 ease-in-out;
+  }
 }
